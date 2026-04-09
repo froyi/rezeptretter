@@ -3,7 +3,7 @@
 import { useActionState, useState } from "react";
 import { signIn, signUp, signInWithMagicLink } from "@/app/actions/auth";
 
-type TabMode = "login" | "register" | "magic";
+type TabMode = "login" | "register";
 
 export default function LoginPage() {
   const [tab, setTab] = useState<TabMode>("login");
@@ -12,29 +12,16 @@ export default function LoginPage() {
   const [magicState, magicAction, magicPending] = useActionState(signInWithMagicLink, null);
 
   return (
-    <div className="bg-card rounded-2xl p-8 space-y-6 shadow-lg w-full max-w-md">
-      {/* Header */}
-      <div className="text-center">
-        <span className="material-symbols-outlined text-primary text-4xl">
-          restaurant_menu
-        </span>
-        <h1 className="text-2xl font-headline font-bold mt-2 text-on-surface">
-          Willkommen zurück
-        </h1>
-        <p className="text-on-surface-variant mt-1">
-          Melde dich an oder erstelle ein Konto
-        </p>
-      </div>
-
-      {/* Tab Switcher */}
-      <div className="flex rounded-xl bg-surface-container p-1 gap-1">
+    <div className="w-full max-w-md bg-surface-container-low rounded-xl p-1 overflow-hidden">
+      {/* Tabs */}
+      <div className="flex p-2 gap-2 bg-surface-container rounded-t-xl">
         <button
           type="button"
           onClick={() => setTab("login")}
-          className={`flex-1 py-2 px-3 rounded-lg text-sm font-label font-medium transition-all ${
+          className={`flex-1 py-3 text-center font-label font-bold rounded-full transition-all duration-200 ${
             tab === "login"
-              ? "bg-primary text-on-primary shadow-sm"
-              : "text-on-surface-variant hover:text-on-surface"
+              ? "bg-surface-container-lowest text-primary shadow-sm"
+              : "text-on-surface-variant hover:text-primary"
           }`}
         >
           Anmelden
@@ -42,234 +29,296 @@ export default function LoginPage() {
         <button
           type="button"
           onClick={() => setTab("register")}
-          className={`flex-1 py-2 px-3 rounded-lg text-sm font-label font-medium transition-all ${
+          className={`flex-1 py-3 text-center font-label font-bold rounded-full transition-all duration-200 ${
             tab === "register"
-              ? "bg-primary text-on-primary shadow-sm"
-              : "text-on-surface-variant hover:text-on-surface"
+              ? "bg-surface-container-lowest text-primary shadow-sm"
+              : "text-on-surface-variant hover:text-primary"
           }`}
         >
           Registrieren
         </button>
       </div>
 
-      {/* Login Form */}
-      {tab === "login" && (
-        <form action={loginAction} className="space-y-4">
-          <div className="space-y-2">
-            <label htmlFor="login-email" className="text-sm font-label font-medium text-on-surface">
-              E-Mail
-            </label>
-            <input
-              id="login-email"
-              name="email"
-              type="email"
-              required
-              autoComplete="email"
-              placeholder="deine@email.de"
-              className="w-full px-4 py-3 rounded-xl bg-surface-container border-0 text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
-            />
-          </div>
-          <div className="space-y-2">
-            <label htmlFor="login-password" className="text-sm font-label font-medium text-on-surface">
-              Passwort
-            </label>
-            <input
-              id="login-password"
-              name="password"
-              type="password"
-              required
-              autoComplete="current-password"
-              placeholder="••••••••"
-              className="w-full px-4 py-3 rounded-xl bg-surface-container border-0 text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
-            />
-          </div>
-
-          {loginState?.error && (
-            <div className="p-3 rounded-xl bg-error-container text-on-error-container text-sm">
-              {loginState.error}
+      {/* Form Card */}
+      <div className="bg-surface-container-lowest p-8 md:p-10 rounded-b-xl rounded-t-lg">
+        {/* Login Form */}
+        {tab === "login" && (
+          <>
+            <div className="mb-8 text-center">
+              <h2 className="font-headline text-2xl font-bold text-on-surface mb-2">
+                Willkommen zurück
+              </h2>
+              <p className="text-on-surface-variant font-body">
+                Melde dich an, um deine Rezepte zu verwalten.
+              </p>
             </div>
-          )}
 
-          <button
-            type="submit"
-            disabled={loginPending}
-            className="w-full py-3 rounded-xl bg-primary text-on-primary font-label font-bold text-sm shadow-md hover:shadow-lg active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {loginPending ? (
-              <span className="flex items-center justify-center gap-2">
-                <span className="material-symbols-outlined animate-spin text-lg">progress_activity</span>
-                Anmelden…
-              </span>
-            ) : (
-              "Anmelden"
-            )}
-          </button>
+            <form action={loginAction} className="space-y-6">
+              {/* Email */}
+              <div className="space-y-2">
+                <label
+                  htmlFor="login-email"
+                  className="block font-label text-sm font-semibold text-on-surface-variant ml-1"
+                >
+                  Email
+                </label>
+                <input
+                  id="login-email"
+                  name="email"
+                  type="email"
+                  required
+                  autoComplete="email"
+                  placeholder="beispiel@mail.de"
+                  className="w-full h-14 bg-surface-container border-0 rounded-full px-6 text-on-surface placeholder:text-stone-400 focus:ring-2 focus:ring-primary/40 transition-all outline-none"
+                />
+              </div>
 
-          <button
-            type="button"
-            onClick={() => setTab("magic")}
-            className="w-full py-2 text-sm text-primary font-label font-medium hover:underline"
-          >
-            Ohne Passwort anmelden →
-          </button>
-        </form>
-      )}
+              {/* Password */}
+              <div className="space-y-2">
+                <div className="flex justify-between items-center px-1">
+                  <label
+                    htmlFor="login-password"
+                    className="block font-label text-sm font-semibold text-on-surface-variant"
+                  >
+                    Passwort
+                  </label>
+                  <button
+                    type="button"
+                    className="text-xs font-semibold text-primary hover:underline"
+                  >
+                    Vergessen?
+                  </button>
+                </div>
+                <input
+                  id="login-password"
+                  name="password"
+                  type="password"
+                  required
+                  autoComplete="current-password"
+                  placeholder="••••••••"
+                  className="w-full h-14 bg-surface-container border-0 rounded-full px-6 text-on-surface placeholder:text-stone-400 focus:ring-2 focus:ring-primary/40 transition-all outline-none"
+                />
+              </div>
 
-      {/* Register Form */}
-      {tab === "register" && (
-        <form action={registerAction} className="space-y-4">
-          <div className="space-y-2">
-            <label htmlFor="register-name" className="text-sm font-label font-medium text-on-surface">
-              Name (optional)
-            </label>
-            <input
-              id="register-name"
-              name="displayName"
-              type="text"
-              autoComplete="name"
-              placeholder="Dein Name"
-              className="w-full px-4 py-3 rounded-xl bg-surface-container border-0 text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
-            />
-          </div>
-          <div className="space-y-2">
-            <label htmlFor="register-email" className="text-sm font-label font-medium text-on-surface">
-              E-Mail
-            </label>
-            <input
-              id="register-email"
-              name="email"
-              type="email"
-              required
-              autoComplete="email"
-              placeholder="deine@email.de"
-              className="w-full px-4 py-3 rounded-xl bg-surface-container border-0 text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
-            />
-          </div>
-          <div className="space-y-2">
-            <label htmlFor="register-password" className="text-sm font-label font-medium text-on-surface">
-              Passwort
-            </label>
-            <input
-              id="register-password"
-              name="password"
-              type="password"
-              required
-              minLength={6}
-              autoComplete="new-password"
-              placeholder="Min. 6 Zeichen"
-              className="w-full px-4 py-3 rounded-xl bg-surface-container border-0 text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
-            />
-          </div>
+              {/* Error */}
+              {loginState?.error && (
+                <div className="p-3 rounded-xl bg-error-container text-on-error-container text-sm">
+                  {loginState.error}
+                </div>
+              )}
 
-          {registerState?.error && (
-            <div className="p-3 rounded-xl bg-error-container text-on-error-container text-sm">
-              {registerState.error}
+              {/* Primary Action */}
+              <button
+                type="submit"
+                disabled={loginPending}
+                className="hero-gradient w-full h-14 rounded-full text-white font-headline font-bold text-lg shadow-lg shadow-primary/10 active:scale-95 transition-transform duration-150 mt-4 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loginPending ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <span className="material-symbols-outlined animate-spin text-lg">
+                      progress_activity
+                    </span>
+                    Anmelden…
+                  </span>
+                ) : (
+                  "Anmelden"
+                )}
+              </button>
+            </form>
+
+            {/* Divider */}
+            <div className="relative my-10">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-outline-variant/30" />
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-4 bg-surface-container-lowest text-on-surface-variant font-label">
+                  oder
+                </span>
+              </div>
             </div>
-          )}
-          {registerState?.success && (
-            <div className="p-3 rounded-xl bg-tertiary-container text-on-tertiary-container text-sm">
-              {registerState.success}
+
+            {/* Secondary Actions */}
+            <div className="space-y-4">
+              {/* Magic Link */}
+              <form action={magicAction}>
+                <input type="hidden" name="email" id="magic-email-hidden" />
+                <button
+                  type="button"
+                  onClick={() => {
+                    const emailInput = document.getElementById("login-email") as HTMLInputElement;
+                    const hiddenInput = document.getElementById("magic-email-hidden") as HTMLInputElement;
+                    if (emailInput?.value) {
+                      hiddenInput.value = emailInput.value;
+                      hiddenInput.form?.requestSubmit();
+                    }
+                  }}
+                  disabled={magicPending}
+                  className="w-full h-14 bg-surface-container-high hover:bg-surface-variant text-primary font-label font-bold rounded-full flex items-center justify-center gap-3 transition-colors active:scale-95 duration-150 disabled:opacity-50"
+                >
+                  {magicPending ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <span className="material-symbols-outlined animate-spin text-lg">
+                        progress_activity
+                      </span>
+                      Sende Link…
+                    </span>
+                  ) : (
+                    <>
+                      <span className="material-symbols-outlined">
+                        magic_button
+                      </span>
+                      Magic Link per E-Mail senden
+                    </>
+                  )}
+                </button>
+              </form>
+
+              {magicState?.success && (
+                <div className="p-3 rounded-xl bg-tertiary-container text-on-tertiary-container text-sm text-center">
+                  {magicState.success}
+                </div>
+              )}
+              {magicState?.error && (
+                <div className="p-3 rounded-xl bg-error-container text-on-error-container text-sm text-center">
+                  {magicState.error}
+                </div>
+              )}
+
+              {/* Google Login (prepared, disabled) */}
+              <button
+                type="button"
+                disabled
+                className="w-full h-14 bg-white border border-outline-variant/50 text-on-surface font-label font-bold rounded-full flex items-center justify-center gap-3 transition-all hover:bg-surface-container-low active:scale-95 duration-150 opacity-40 cursor-not-allowed"
+                title="Google Login kommt bald"
+              >
+                <svg className="w-5 h-5" viewBox="0 0 24 24">
+                  <path
+                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                    fill="#4285F4"
+                  />
+                  <path
+                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                    fill="#34A853"
+                  />
+                  <path
+                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                    fill="#FBBC05"
+                  />
+                  <path
+                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                    fill="#EA4335"
+                  />
+                </svg>
+                Google Login
+              </button>
             </div>
-          )}
+          </>
+        )}
 
-          <button
-            type="submit"
-            disabled={registerPending}
-            className="w-full py-3 rounded-xl bg-primary text-on-primary font-label font-bold text-sm shadow-md hover:shadow-lg active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {registerPending ? (
-              <span className="flex items-center justify-center gap-2">
-                <span className="material-symbols-outlined animate-spin text-lg">progress_activity</span>
-                Registrieren…
-              </span>
-            ) : (
-              "Konto erstellen"
-            )}
-          </button>
-        </form>
-      )}
-
-      {/* Magic Link Form */}
-      {tab === "magic" && (
-        <form action={magicAction} className="space-y-4">
-          <p className="text-sm text-on-surface-variant">
-            Wir senden dir einen Magic Link per E-Mail. Kein Passwort nötig.
-          </p>
-          <div className="space-y-2">
-            <label htmlFor="magic-email" className="text-sm font-label font-medium text-on-surface">
-              E-Mail
-            </label>
-            <input
-              id="magic-email"
-              name="email"
-              type="email"
-              required
-              autoComplete="email"
-              placeholder="deine@email.de"
-              className="w-full px-4 py-3 rounded-xl bg-surface-container border-0 text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
-            />
-          </div>
-
-          {magicState?.error && (
-            <div className="p-3 rounded-xl bg-error-container text-on-error-container text-sm">
-              {magicState.error}
+        {/* Register Form */}
+        {tab === "register" && (
+          <>
+            <div className="mb-8 text-center">
+              <h2 className="font-headline text-2xl font-bold text-on-surface mb-2">
+                Konto erstellen
+              </h2>
+              <p className="text-on-surface-variant font-body">
+                Starte jetzt und rette deine Lieblingsrezepte.
+              </p>
             </div>
-          )}
-          {magicState?.success && (
-            <div className="p-3 rounded-xl bg-tertiary-container text-on-tertiary-container text-sm">
-              {magicState.success}
-            </div>
-          )}
 
-          <button
-            type="submit"
-            disabled={magicPending}
-            className="w-full py-3 rounded-xl bg-secondary-container text-on-secondary-container font-label font-bold text-sm shadow-md hover:shadow-lg active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {magicPending ? (
-              <span className="flex items-center justify-center gap-2">
-                <span className="material-symbols-outlined animate-spin text-lg">progress_activity</span>
-                Sende Link…
-              </span>
-            ) : (
-              "Magic Link senden ✨"
-            )}
-          </button>
+            <form action={registerAction} className="space-y-6">
+              {/* Name */}
+              <div className="space-y-2">
+                <label
+                  htmlFor="register-name"
+                  className="block font-label text-sm font-semibold text-on-surface-variant ml-1"
+                >
+                  Name (optional)
+                </label>
+                <input
+                  id="register-name"
+                  name="displayName"
+                  type="text"
+                  autoComplete="name"
+                  placeholder="Dein Name"
+                  className="w-full h-14 bg-surface-container border-0 rounded-full px-6 text-on-surface placeholder:text-stone-400 focus:ring-2 focus:ring-primary/40 transition-all outline-none"
+                />
+              </div>
 
-          <button
-            type="button"
-            onClick={() => setTab("login")}
-            className="w-full py-2 text-sm text-primary font-label font-medium hover:underline"
-          >
-            ← Zurück zur Anmeldung
-          </button>
-        </form>
-      )}
+              {/* Email */}
+              <div className="space-y-2">
+                <label
+                  htmlFor="register-email"
+                  className="block font-label text-sm font-semibold text-on-surface-variant ml-1"
+                >
+                  Email
+                </label>
+                <input
+                  id="register-email"
+                  name="email"
+                  type="email"
+                  required
+                  autoComplete="email"
+                  placeholder="beispiel@mail.de"
+                  className="w-full h-14 bg-surface-container border-0 rounded-full px-6 text-on-surface placeholder:text-stone-400 focus:ring-2 focus:ring-primary/40 transition-all outline-none"
+                />
+              </div>
 
-      {/* Google OAuth – vorbereitet, nicht aktiv */}
-      <div className="relative">
-        <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-outline-variant" />
-        </div>
-        <div className="relative flex justify-center text-xs">
-          <span className="bg-card px-2 text-on-surface-variant">oder</span>
-        </div>
+              {/* Password */}
+              <div className="space-y-2">
+                <label
+                  htmlFor="register-password"
+                  className="block font-label text-sm font-semibold text-on-surface-variant ml-1"
+                >
+                  Passwort
+                </label>
+                <input
+                  id="register-password"
+                  name="password"
+                  type="password"
+                  required
+                  minLength={6}
+                  autoComplete="new-password"
+                  placeholder="Min. 6 Zeichen"
+                  className="w-full h-14 bg-surface-container border-0 rounded-full px-6 text-on-surface placeholder:text-stone-400 focus:ring-2 focus:ring-primary/40 transition-all outline-none"
+                />
+              </div>
+
+              {/* Error / Success */}
+              {registerState?.error && (
+                <div className="p-3 rounded-xl bg-error-container text-on-error-container text-sm">
+                  {registerState.error}
+                </div>
+              )}
+              {registerState?.success && (
+                <div className="p-3 rounded-xl bg-tertiary-container text-on-tertiary-container text-sm">
+                  {registerState.success}
+                </div>
+              )}
+
+              {/* Primary Action */}
+              <button
+                type="submit"
+                disabled={registerPending}
+                className="hero-gradient w-full h-14 rounded-full text-white font-headline font-bold text-lg shadow-lg shadow-primary/10 active:scale-95 transition-transform duration-150 mt-4 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {registerPending ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <span className="material-symbols-outlined animate-spin text-lg">
+                      progress_activity
+                    </span>
+                    Registrieren…
+                  </span>
+                ) : (
+                  "Konto erstellen"
+                )}
+              </button>
+            </form>
+          </>
+        )}
       </div>
-
-      <button
-        type="button"
-        disabled
-        className="w-full py-3 rounded-xl bg-surface-container text-on-surface-variant font-label font-medium text-sm flex items-center justify-center gap-3 opacity-40 cursor-not-allowed"
-        title="Google Login kommt bald"
-      >
-        <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
-          <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 01-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/>
-          <path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z" fill="#34A853"/>
-          <path d="M3.964 10.71A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.042l3.007-2.332z" fill="#FBBC05"/>
-          <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.958L3.964 6.29C4.672 4.163 6.656 2.58 9 3.58z" fill="#EA4335"/>
-        </svg>
-        Mit Google anmelden (bald verfügbar)
-      </button>
     </div>
   );
 }
