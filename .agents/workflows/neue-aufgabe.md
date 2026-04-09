@@ -86,3 +86,41 @@ Erstelle `implementation_plan.md` als Artifact mit:
 - **Verifikationsplan:** Tests, Browser-Tests, Screenshot-Vergleich mit Stitch-Design
 
 **WICHTIG:** Fange NICHT mit der Umsetzung an! Zeige den Plan dem User zur Freigabe.
+
+---
+
+## Nach Abschluss des Tickets
+
+### 10. Commit & Push
+
+```bash
+cd /Users/maikschoessler/projects/antigravity/rezeptretter
+git add .
+git commit -m "<type>: <kurze Beschreibung>
+
+<Details was gemacht wurde>
+
+Trello: <Ticket-Name>"
+git push origin <branch-name>
+```
+
+Commit-Message Typen:
+- `feat:` → Neues Feature / Screen
+- `fix:` → Bugfix
+- `chore:` → Setup, Config, Dependencies
+- `style:` → Design/CSS Änderungen
+- `refactor:` → Code-Umstrukturierung
+- `test:` → Tests hinzugefügt
+- `docs:` → Dokumentation
+
+### 11. Ticket nach "Done" verschieben
+
+Verschiebe die Karte in die **✅ Done**-Liste (`69d774abb2bb39651e492734`).
+
+### 12. Main mergen (nach Review)
+
+```bash
+git checkout main
+git merge <branch-name>
+git push origin main
+```
