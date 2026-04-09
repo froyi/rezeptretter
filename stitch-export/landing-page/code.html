@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+
+<html class="light" lang="de"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@700;800&amp;family=Manrope:wght@400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed": "#ffdbd0",
+                        "outline-variant": "#e0c0b2",
+                        "primary": "#974400",
+                        "on-background": "#1c1c18",
+                        "surface-tint": "#9a4600",
+                        "secondary-fixed-dim": "#e7bdb1",
+                        "on-primary-fixed": "#321200",
+                        "tertiary-container": "#bc5540",
+                        "primary-fixed-dim": "#ffb68d",
+                        "error-container": "#ffdad6",
+                        "on-surface": "#1c1c18",
+                        "tertiary-fixed": "#ffdad3",
+                        "background": "#fdf9f3",
+                        "outline": "#8c7166",
+                        "primary-container": "#bb5808",
+                        "surface-bright": "#fdf9f3",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#dddad4",
+                        "tertiary": "#9c3e2b",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-container": "#795950",
+                        "secondary": "#77574d",
+                        "inverse-surface": "#31302d",
+                        "surface-container": "#f1ede7",
+                        "on-primary-container": "#fffbff",
+                        "on-error": "#ffffff",
+                        "inverse-on-surface": "#f4f0ea",
+                        "on-primary-fixed-variant": "#763400",
+                        "on-tertiary-container": "#fffbff",
+                        "on-surface-variant": "#584238",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#ffb68d",
+                        "on-secondary-fixed-variant": "#5d4037",
+                        "primary-fixed": "#ffdbc9",
+                        "on-secondary": "#ffffff",
+                        "surface-variant": "#e6e2dc",
+                        "surface-container-highest": "#e6e2dc",
+                        "on-tertiary-fixed": "#3e0500",
+                        "on-error-container": "#93000a",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb4a5",
+                        "on-secondary-fixed": "#2c160e",
+                        "surface-container-low": "#f7f3ed",
+                        "surface": "#fdf9f3",
+                        "on-tertiary-fixed-variant": "#802918",
+                        "secondary-container": "#fed3c7",
+                        "surface-container-high": "#ebe8e2"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Epilogue"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Manrope', sans-serif; }
+        h1, h2, h3 { font-family: 'Epilogue', sans-serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface selection:bg-secondary-fixed">
+<!-- TopAppBar -->
+<header class="bg-[#fdf9f3]/85 backdrop-blur-md dark:bg-stone-900/85 docked full-width top-0 z-50 fixed">
+<div class="flex justify-between items-center px-6 py-4 w-full max-w-screen-xl mx-auto">
+<div class="flex justify-center items-center py-6 w-full max-w-screen-xl mx-auto">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-4xl text-[#974400] dark:text-[#cc5500]" data-icon="restaurant_menu">restaurant_menu</span>
+<span class="font-bold text-4xl tracking-tighter Epilogue text-[#974400] dark:text-[#cc5500]">Rezeptretter</span>
+</div>
+</div>
+</div>
+</header>
+<main class="pb-32 pt-32">
+<!-- Hero Section -->
+<section class="px-6 max-w-screen-xl mx-auto mb-20">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+<div class="lg:col-span-6 space-y-8">
+<div class="inline-flex items-center px-4 py-2 rounded-full bg-secondary-container text-on-secondary-fixed-variant font-medium text-sm">
+<span class="material-symbols-outlined mr-2 text-sm" data-icon="magic_button">magic_button</span>
+                        KI-gestützte Extraktion
+                    </div>
+<h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter text-on-background leading-[1.1]">
+                        Rette deine Rezepte. <br/>
+<span class="text-primary italic">Koch sie nach.</span>
+</h1>
+<p class="text-xl text-on-surface-variant leading-relaxed max-w-lg">
+                        Extrahiere Rezepte von jeder Webseite. Organisiere sie an einem Ort. Koch sie Schritt für Schritt nach – ganz ohne nervige Werbung.
+                    </p>
+<div class="flex flex-col sm:flex-row gap-4 pt-4">
+<button class="h-[56px] px-10 rounded-full bg-gradient-to-br from-[#974400] to-[#bb5808] text-white font-bold text-lg shadow-lg shadow-primary/20 active:scale-95 transition-transform">
+                            Kostenlos starten
+                        </button>
+</div>
+</div>
+<div class="lg:col-span-6 relative">
+<div class="relative z-10 rounded-xl overflow-hidden shadow-2xl rotate-2">
+<img class="w-full aspect-[4/5] object-cover" data-alt="Cinematic shot of fresh ingredients, tomatoes, herbs, and olive oil on a rustic wooden kitchen counter, warm sunlight filtering through a window" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIrRFn3tOvC3uMoJvoGdR6S42q-daOJJqtGxWDgleRWXfpm-1v1jx0L76ZqaOuiKIFIydRsX4KldmZfhI45QE5A4d4mDddZ9lMqrrUdCvSvXxF7FA3rNRtVB4FJZVz1q8It1RgCZZZaFzXH_NxWht1sUKC3j-wG9mJqLwEgfln6eQwqff9usbZnxYaWttaEzrbXtNO5RLl3a3HeVusg_6FVc074z666oer4xRGPjMtn9yhkPOWsrsEMX8WycsbilOtxUNkaFTFeUA"/>
+</div>
+<div class="absolute -top-6 -right-6 w-48 h-48 bg-primary-container/20 rounded-full blur-3xl -z-10"></div>
+<div class="absolute -bottom-10 -left-10 w-64 h-64 bg-secondary-fixed/30 rounded-full blur-3xl -z-10"></div>
+<!-- Floating UI Card -->
+<div class="absolute bottom-10 -right-4 z-20 bg-surface/90 backdrop-blur-xl p-6 rounded-lg shadow-xl max-w-xs hidden sm:block">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-12 h-12 bg-primary rounded-xl flex items-center justify-center text-white">
+<span class="material-symbols-outlined" data-icon="restaurant">restaurant</span>
+</div>
+<div>
+<p class="font-bold text-sm">Linguine al Limone</p>
+<p class="text-xs text-on-surface-variant">Importiert von 'The Pasta Queen'</p>
+</div>
+</div>
+<div class="space-y-2">
+<div class="h-1 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full w-2/3 bg-primary rounded-full"></div>
+</div>
+<p class="text-[10px] font-bold text-primary uppercase tracking-widest">Schritt 4 von 6</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Highlights Bento Grid -->
+<section class="bg-surface-container-low py-24">
+<div class="px-6 max-w-screen-xl mx-auto">
+<div class="text-center mb-16 space-y-4">
+<h2 class="text-3xl md:text-5xl font-bold tracking-tight">Kochen war noch nie so entspannt.</h2>
+<p class="text-on-surface-variant max-w-2xl mx-auto text-lg">Kein Scrollen durch endlose Blog-Texte mehr. Nur das Rezept, pur und perfekt organisiert.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Importieren -->
+<div class="bg-surface-container-lowest p-10 rounded-xl flex flex-col items-start gap-6 transition-transform hover:-translate-y-2 group">
+<div class="w-16 h-16 rounded-full bg-primary-fixed flex items-center justify-center group-hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-3xl text-on-primary-fixed group-hover:text-white" data-icon="download">download</span>
+</div>
+<div class="space-y-3">
+<h3 class="text-2xl font-bold">Importieren</h3>
+<p class="text-on-surface-variant leading-relaxed">Kopiere einfach einen Link. Unsere KI findet die Zutaten und Schritte automatisch für dich.</p>
+</div>
+</div>
+<!-- Organisieren -->
+<div class="bg-surface-container-lowest p-10 rounded-xl flex flex-col items-start gap-6 transition-transform hover:-translate-y-2 group">
+<div class="w-16 h-16 rounded-full bg-secondary-container flex items-center justify-center group-hover:bg-secondary transition-colors">
+<span class="material-symbols-outlined text-3xl text-on-secondary-container group-hover:text-white" data-icon="grid_view">grid_view</span>
+</div>
+<div class="space-y-3">
+<h3 class="text-2xl font-bold">Organisieren</h3>
+<p class="text-on-surface-variant leading-relaxed">Sortiere deine Schätze in Sammlungen. Erstelle Einkaufslisten mit nur einem Klick.</p>
+</div>
+</div>
+<!-- Nachkochen -->
+<div class="bg-surface-container-lowest p-10 rounded-xl flex flex-col items-start gap-6 transition-transform hover:-translate-y-2 group">
+<div class="w-16 h-16 rounded-full bg-tertiary-fixed flex items-center justify-center group-hover:bg-tertiary transition-colors">
+<span class="material-symbols-outlined text-3xl text-on-tertiary-fixed group-hover:text-white" data-icon="timer">timer</span>
+</div>
+<div class="space-y-3">
+<h3 class="text-2xl font-bold">Nachkochen</h3>
+<p class="text-on-surface-variant leading-relaxed">Der intelligente Kochmodus hält den Bildschirm wach und führt dich Schritt für Schritt.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Visual Feature Section -->
+<section class="py-24 px-6 max-w-screen-xl mx-auto">
+<div class="bg-[#974400] rounded-xl overflow-hidden flex flex-col lg:flex-row items-center">
+<div class="p-12 lg:p-20 lg:w-1/2 space-y-6">
+<h2 class="text-4xl md:text-5xl font-bold text-white leading-tight">Dein digitaler <br/>Sous-Chef wartet.</h2>
+<p class="text-secondary-fixed text-lg">Hör auf, Screenshots zu machen oder Lesezeichen zu verlieren. Rezeptretter macht das Web zu deinem persönlichen Kochbuch.</p>
+<ul class="space-y-4 text-white/90">
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary-fixed" data-icon="check_circle" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                            Funktioniert auf 99% aller Webseiten
+                        </li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary-fixed" data-icon="check_circle" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                            Keine Werbung, kein Drumherum
+                        </li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary-fixed" data-icon="check_circle" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                            Teile Rezepte mit Freunden
+                        </li>
+</ul>
+<div class="pt-6">
+<button class="h-[56px] px-10 rounded-full bg-white text-primary font-bold text-lg active:scale-95 transition-transform">
+                            Jetzt Rezepte retten
+                        </button>
+</div>
+</div>
+<div class="lg:w-1/2 h-[400px] lg:h-[600px] w-full">
+<img class="w-full h-full object-cover" data-alt="Top down view of colorful Mediterranean vegetables on a white surface, vibrant bell peppers, zucchini, and eggplant arranged artistically" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJ5duS_0edII0OTZvqWik3wd8_iJ65Y7fXlHbpovo6snktLeUDWtY2mWXZ5_QmRTSL0ZViCBFj7sxqXFEORwKgv3pCLDXRQFjyBE5DU0dvl_jAKCCxfo80yPQETt3dSqIh3ZZcmHuhSUoDbi40OLVsB5ZyXGAGD4hDqliMt3-uc02q5r5XdxOhtNA7P5AWXmtd5fh6InCraKrcqyYajcczLfELx7SW04KxF1TUwgfiMtUJntrpbsUZCdplgyMuF9OIB-7uC6Ic2O4"/>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<!-- FAB (Suppressed on Landing but illustrative of system) -->
+</body></html>

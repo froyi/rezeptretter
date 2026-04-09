@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+
+<html class="light" lang="de"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@700;800&amp;family=Manrope:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed": "#ffdbd0",
+                    "outline-variant": "#e0c0b2",
+                    "primary": "#974400",
+                    "on-background": "#1c1c18",
+                    "surface-tint": "#9a4600",
+                    "secondary-fixed-dim": "#e7bdb1",
+                    "on-primary-fixed": "#321200",
+                    "tertiary-container": "#bc5540",
+                    "primary-fixed-dim": "#ffb68d",
+                    "error-container": "#ffdad6",
+                    "on-surface": "#1c1c18",
+                    "tertiary-fixed": "#ffdad3",
+                    "background": "#fdf9f3",
+                    "outline": "#8c7166",
+                    "primary-container": "#bb5808",
+                    "surface-bright": "#fdf9f3",
+                    "error": "#ba1a1a",
+                    "surface-dim": "#dddad4",
+                    "tertiary": "#9c3e2b",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-container": "#795950",
+                    "secondary": "#77574d",
+                    "inverse-surface": "#31302d",
+                    "surface-container": "#f1ede7",
+                    "on-primary-container": "#fffbff",
+                    "on-error": "#ffffff",
+                    "inverse-on-surface": "#f4f0ea",
+                    "on-primary-fixed-variant": "#763400",
+                    "on-tertiary-container": "#fffbff",
+                    "on-surface-variant": "#584238",
+                    "on-primary": "#ffffff",
+                    "inverse-primary": "#ffb68d",
+                    "on-secondary-fixed-variant": "#5d4037",
+                    "primary-fixed": "#ffdbc9",
+                    "on-secondary": "#ffffff",
+                    "surface-variant": "#e6e2dc",
+                    "surface-container-highest": "#e6e2dc",
+                    "on-tertiary-fixed": "#3e0500",
+                    "on-error-container": "#93000a",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-fixed-dim": "#ffb4a5",
+                    "on-secondary-fixed": "#2c160e",
+                    "surface-container-low": "#f7f3ed",
+                    "surface": "#fdf9f3",
+                    "on-tertiary-fixed-variant": "#802918",
+                    "secondary-container": "#fed3c7",
+                    "surface-container-high": "#ebe8e2"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Epilogue"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Manrope', sans-serif; }
+        h1, h2, h3 { font-family: 'Epilogue', sans-serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface min-h-screen pb-32 selection:bg-secondary-container">
+<!-- TopAppBar -->
+<header class="fixed top-0 z-50 w-full bg-[#fdf9f3]/85 backdrop-blur-md dark:bg-stone-900/85">
+<div class="flex justify-between items-center px-6 py-4 w-full max-w-screen-xl mx-auto">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#974400] dark:text-[#cc5500] text-2xl">restaurant_menu</span>
+<h1 class="font-bold text-2xl tracking-tight Epilogue text-[#974400] dark:text-[#cc5500]">Rezeptretter</h1>
+</div>
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container-high ring-2 ring-primary/10">
+<img alt="User Profile Photo" class="w-full h-full object-cover" data-alt="portrait of a young smiling person with warm lighting against a soft-focus kitchen background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXtWJxMdo0C8NoWy3a8h_Yg2JR0aaFdd2M3XWsm9mbxgD-khzQ67GG1TMhFAvCTqeYwE4leNjxkV6jB86e8A8YvYUPBRLYhfP9a9-clPl4k9Imy06zMI5cZGztRvfu3MmyyQR5viI4V1kHd2ffWuCoQljconMldbj8QJkS4qVca_ijmf2_ISfXo39GzrvpJgf7Tbnr0mbbdYiH87R-TnRUTikVCCK4HH6OnX9O9zbNVG869gyoIyJICSgS-LOhpcf-Ue5T0yT-oRM"/>
+</div>
+</div>
+</header>
+<main class="pt-24 px-6 max-w-screen-xl mx-auto">
+<!-- Hero Search Section -->
+<section class="mb-10">
+<div class="relative group">
+<div class="absolute inset-y-0 left-5 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline">search</span>
+</div>
+<input class="w-full h-16 pl-14 pr-6 bg-surface-container border-none rounded-full focus:ring-2 focus:ring-primary/40 text-lg placeholder:text-on-surface-variant/60 transition-all" placeholder="Suche Rezepte oder Zutaten..." type="text"/>
+</div>
+</section>
+<!-- Category Chips (Supplementary for high-end UI) -->
+<section class="mb-10 flex gap-3 overflow-x-auto pb-2 no-scrollbar">
+<button class="whitespace-nowrap px-6 py-3 bg-primary text-on-primary rounded-full font-medium shadow-lg shadow-primary/10">Alle Rezepte</button>
+<button class="whitespace-nowrap px-6 py-3 bg-surface-container-high text-on-surface-variant rounded-full font-medium hover:bg-surface-container-highest transition-colors">Vegetarisch</button>
+<button class="whitespace-nowrap px-6 py-3 bg-surface-container-high text-on-surface-variant rounded-full font-medium hover:bg-surface-container-highest transition-colors">Schnelle Küche</button>
+<button class="whitespace-nowrap px-6 py-3 bg-surface-container-high text-on-surface-variant rounded-full font-medium hover:bg-surface-container-highest transition-colors">Backen</button>
+</section>
+<!-- Recipe Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Card 1 -->
+<div class="flex flex-col gap-4 group">
+<div class="relative overflow-hidden rounded-xl aspect-[4/3] bg-surface-container-low transition-transform duration-500 hover:scale-[1.02]">
+<img alt="Creamy Pasta" class="w-full h-full object-cover" data-alt="overhead shot of a vibrant pasta bowl with fresh herbs and parmesan cheese on a warm rustic table" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAofujNCBdpB_g-rq3h-B06mKpMhZVa-I7xadqOaXg0vMr_qWOEvyDguUsbGTc4RTebcRo_voUu1wlcPqFi19nzI8YcG5sO8CCz9kVcjVS7nU2zamx-Imu6a4N8oFFcG8cJe94O-bompy4_b7PHr8rCieq_QZTbZTThyNW4FvfJf4SYYlPxMEMxp1GHMiMVmEa2fFpfVxijSoNmYOySn6suVqlB4_eQDrv5ktABj7GKHYIaK5hYhIAWg1ddi-ILYsuiIazKMI6bdEw"/>
+<div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-sm text-primary">schedule</span>
+<span class="text-xs font-bold text-on-primary-fixed">25 Min</span>
+</div>
+</div>
+<div class="px-2">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary text-lg">restaurant</span>
+<span class="text-xs font-medium text-outline tracking-wider uppercase">Chefkoch</span>
+</div>
+<h3 class="text-xl font-bold text-on-surface leading-tight line-clamp-2">Cremige Pasta mit gerösteten Kirschtomaten &amp; Basilikum</h3>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="flex flex-col gap-4 group">
+<div class="relative overflow-hidden rounded-xl aspect-[4/3] bg-surface-container-low transition-transform duration-500 hover:scale-[1.02]">
+<img alt="Fresh Salad" class="w-full h-full object-cover" data-alt="close-up of a colorful mediterranean buddha bowl with chickpeas, avocado and fresh greens" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRpl7i8VU_4BEY_NYOokFc9QzMppfsL6kx6wxp5uf6u6hDAdVZwIkP6rOVHFJwMo_TULeDP8nvC9DB0-btCf6vg7QIBZBk5YtcUZt78Ai6nAJ7Jiwsw48nrR7KYo3hJEept-UA3lUC3cUEN447_dHoLYX2-m9_FXr6ZIFHSJQ66eIRTSL57FMedzK7bLktBLlop9C51719-9Lk3Jbi4g_tB-wnYqJrxowp_pp6hkuKxGArx_GJBJ2IXTt1HEH1rGzRrdUk6z5PLo0"/>
+<div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-sm text-primary">schedule</span>
+<span class="text-xs font-bold text-on-primary-fixed">15 Min</span>
+</div>
+</div>
+<div class="px-2">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary text-lg">photo_camera</span>
+<span class="text-xs font-medium text-outline tracking-wider uppercase">Instagram</span>
+</div>
+<h3 class="text-xl font-bold text-on-surface leading-tight line-clamp-2">Regenbogen Buddha Bowl mit Tahini Dressing</h3>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="flex flex-col gap-4 group">
+<div class="relative overflow-hidden rounded-xl aspect-[4/3] bg-surface-container-low transition-transform duration-500 hover:scale-[1.02]">
+<img alt="Steak Dish" class="w-full h-full object-cover" data-alt="perfectly seared ribeye steak with rosemary sprig on a wooden board with dramatic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAyu5C_CQFTg1_qtXCCsvlfqu3v-eelUppbJD4Nl3bcS37rcYhI3_JJvHwMh_9rYOOEqViT8_grpERt2voli8W3PCC9PB5sWw3ZbQnSu-LofJX9QB9ktPBuZOu7DXHOWVvRFoQRYXDilUf01Hwoe9GHKPtt4yU3Sl8yMakFRzQqvNXFy1iB5c_iHqTz7ZAM0NwBMpzFmIMznAReEIKMXhkk6lefyHIFlo_-ScRHbcJ9O2DCiDr23ur6JYCWz17rtGDi9rv65Gucc0"/>
+<div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-sm text-primary">schedule</span>
+<span class="text-xs font-bold text-on-primary-fixed">45 Min</span>
+</div>
+</div>
+<div class="px-2">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary text-lg">language</span>
+<span class="text-xs font-medium text-outline tracking-wider uppercase">Food Blog</span>
+</div>
+<h3 class="text-xl font-bold text-on-surface leading-tight line-clamp-2">Zartes Rumpsteak mit Kräuterbutter und Ofengemüse</h3>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="flex flex-col gap-4 group">
+<div class="relative overflow-hidden rounded-xl aspect-[4/3] bg-surface-container-low transition-transform duration-500 hover:scale-[1.02]">
+<img alt="Pancakes" class="w-full h-full object-cover" data-alt="stack of fluffy pancakes with melting butter and dripping maple syrup against a warm breakfast background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAB1ruSO5syxxE_7fObhGHqfKJX9_mwJdL9TENuWaS42ZLbEzuws5-qDlB0kMFdBKtCiwEoa8fWQJOgmDickd0QI5Qq8OOBmSV-OtizowRKPg8GyyeKWDPcn-aBpjU5UkmPLrZaBS9OHCZHlxdC1fWZOF9569chaBEPUSaX8CIp1nX9GfI7C3aJ8ZcNu3NGxk8j4a-34Cd_2KsY_gFI32GG5MmKmwxnlbJiGuj9hwJFnNlT0N9umkc9DoFv9P-GWrd91bo73m7FmXE"/>
+<div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-sm text-primary">schedule</span>
+<span class="text-xs font-bold text-on-primary-fixed">20 Min</span>
+</div>
+</div>
+<div class="px-2">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary text-lg">restaurant</span>
+<span class="text-xs font-medium text-outline tracking-wider uppercase">Chefkoch</span>
+</div>
+<h3 class="text-xl font-bold text-on-surface leading-tight line-clamp-2">Fluffige American Pancakes mit Ahornsirup</h3>
+</div>
+</div>
+</section>
+</main>
+<!-- Floating Import Button (FAB) -->
+<button class="fixed bottom-28 right-6 z-50 w-16 h-16 rounded-full bg-gradient-to-br from-[#974400] to-[#bb5808] text-white flex items-center justify-center shadow-xl shadow-[#321200]/20 hover:scale-105 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-[#fdf9f3] dark:bg-stone-950 rounded-t-[3rem] shadow-[0px_-12px_32px_rgba(50,18,0,0.06)]">
+<!-- Active Tab: Rezepte -->
+<a class="flex flex-col items-center justify-center bg-gradient-to-br from-[#974400] to-[#bb5808] text-white rounded-full px-6 py-2 scale-95 duration-200" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-medium text-[12px] Manrope">Rezepte</span>
+</a>
+<a class="flex flex-col items-center justify-center text-stone-400 dark:text-stone-500 px-4 py-2 hover:text-[#974400] transition-all" href="#">
+<span class="material-symbols-outlined">add_circle</span>
+<span class="font-medium text-[12px] Manrope">Importieren</span>
+</a>
+<a class="flex flex-col items-center justify-center text-stone-400 dark:text-stone-500 px-4 py-2 hover:text-[#974400] transition-all" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-medium text-[12px] Manrope">Profil</span>
+</a>
+</nav>
+</body></html>

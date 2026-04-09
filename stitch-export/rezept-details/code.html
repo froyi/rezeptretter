@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+
+<html class="light" lang="de"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@700;800&amp;family=Manrope:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed": "#ffdbd0",
+                        "outline-variant": "#e0c0b2",
+                        "primary": "#974400",
+                        "on-background": "#1c1c18",
+                        "surface-tint": "#9a4600",
+                        "secondary-fixed-dim": "#e7bdb1",
+                        "on-primary-fixed": "#321200",
+                        "tertiary-container": "#bc5540",
+                        "primary-fixed-dim": "#ffb68d",
+                        "error-container": "#ffdad6",
+                        "on-surface": "#1c1c18",
+                        "tertiary-fixed": "#ffdad3",
+                        "background": "#fdf9f3",
+                        "outline": "#8c7166",
+                        "primary-container": "#bb5808",
+                        "surface-bright": "#fdf9f3",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#dddad4",
+                        "tertiary": "#9c3e2b",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-container": "#795950",
+                        "secondary": "#77574d",
+                        "inverse-surface": "#31302d",
+                        "surface-container": "#f1ede7",
+                        "on-primary-container": "#fffbff",
+                        "on-error": "#ffffff",
+                        "inverse-on-surface": "#f4f0ea",
+                        "on-primary-fixed-variant": "#763400",
+                        "on-tertiary-container": "#fffbff",
+                        "on-surface-variant": "#584238",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#ffb68d",
+                        "on-secondary-fixed-variant": "#5d4037",
+                        "primary-fixed": "#ffdbc9",
+                        "on-secondary": "#ffffff",
+                        "surface-variant": "#e6e2dc",
+                        "surface-container-highest": "#e6e2dc",
+                        "on-tertiary-fixed": "#3e0500",
+                        "on-error-container": "#93000a",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb4a5",
+                        "on-secondary-fixed": "#2c160e",
+                        "surface-container-low": "#f7f3ed",
+                        "surface": "#fdf9f3",
+                        "on-tertiary-fixed-variant": "#802918",
+                        "secondary-container": "#fed3c7",
+                        "surface-container-high": "#ebe8e2"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Epilogue"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Manrope', sans-serif; }
+        h1, h2, h3 { font-family: 'Epilogue', sans-serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen pb-32">
+<!-- Top Navigation -->
+<nav class="fixed top-0 z-50 w-full bg-[#fdf9f3]/85 backdrop-blur-md dark:bg-stone-900/85">
+<div class="flex justify-between items-center px-6 py-4 w-full max-w-screen-xl mx-auto">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#974400] dark:text-[#cc5500]" data-icon="restaurant_menu">restaurant_menu</span>
+<span class="font-bold text-2xl tracking-tight Epilogue text-[#974400] dark:text-[#cc5500]">Rezeptretter</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-stone-500 hover:opacity-80 transition-opacity cursor-pointer" data-icon="share">share</span>
+<img alt="Profile" class="w-10 h-10 rounded-full border-2 border-surface-container-highest" data-alt="Professional studio portrait of a smiling person with warm lighting and a soft neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCfK_YZXlipccFJL1VuDEFkLuKjB6KbQU1xz2P9TWVOqsVkVm2ZJSDYTAKbhfZGYifIw5WT3c1S7-aHNuU4weTWL8soeeemfV5oiXavh2fWg_yHJ-vjtLoHf-vMoPfC6jfGI-0hhiZs2krZfooHVpPzXPBbjemg1RpYMxbkSqBgU2w7J78fDPomKDhaBfiickTNPaDuTXDYNkzqczM_637ruXI61AhsQO24aYzNggrPJXS3IzxGUgqpGm0LqVEQI2x1UsXYFVhvtc"/>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="w-full max-w-screen-xl mx-auto pt-20">
+<!-- Hero Section -->
+<section class="relative w-full aspect-[4/3] md:aspect-[21/9] overflow-hidden md:rounded-xl md:px-6">
+<img alt="Recipe Hero" class="w-full h-full object-cover md:rounded-xl" data-alt="Close-up of a fresh Mediterranean salad bowl with grilled halloumi, pomegranate seeds, and fresh herbs in soft morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWJtu_67rgrl8EDDeMV-ENru2bHaZvsQskBZrnAeHOsoTtuA_g2YFKaF-RzWfrNNd20i_JEt7c1PgH0IC5fUQyLyC07SwiVS1xvykPYa3YgoBlGVi7semY_fwjMXg6VqYInRQSqXmKZ29J5d6hJwB5mRHKD7ngZngJbYj9cOXVDffy1vUg52nBXEHz-NA3_KFFzcx8xN57jRBqDUyyQeX6vDSOwcGBD0UvVZrzAbuiAiCfv-M0ahgGk8alLoC36LFqHJ_xmlwbtbw"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-8 md:p-12 md:rounded-xl">
+<div class="max-w-3xl">
+<h1 class="text-white text-4xl md:text-6xl font-bold tracking-tight mb-4 leading-tight">Gartenfrischer Halloumi-Salat</h1>
+<div class="flex flex-wrap gap-4 text-white/90">
+<div class="flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full">
+<span class="material-symbols-outlined text-sm" data-icon="schedule">schedule</span>
+<span class="text-sm font-medium">25 Min.</span>
+</div>
+<div class="flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full">
+<span class="material-symbols-outlined text-sm" data-icon="restaurant">restaurant</span>
+<span class="text-sm font-medium">Leicht</span>
+</div>
+<div class="flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full">
+<span class="material-symbols-outlined text-sm" data-icon="menu_book">menu_book</span>
+<span class="text-sm font-medium">Omas Kochbuch</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Action Bar -->
+<section class="px-6 -mt-8 relative z-10">
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0px_12px_32px_rgba(50,18,0,0.06)] flex flex-col md:flex-row md:items-center justify-between gap-6">
+<div class="flex flex-col sm:flex-row gap-4">
+<button class="bg-gradient-to-br from-[#974400] to-[#bb5808] text-white rounded-full h-[56px] px-8 flex items-center justify-center gap-3 font-bold hover:opacity-90 transition-all active:scale-95">
+<span class="material-symbols-outlined" data-icon="play_circle">play_circle</span>
+                        Kochmodus starten
+                    </button>
+<div class="flex gap-2">
+<button class="bg-surface-container-high text-primary rounded-full w-[56px] h-[56px] flex items-center justify-center hover:bg-surface-variant transition-colors active:scale-90">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+<button class="bg-surface-container-high text-primary rounded-full w-[56px] h-[56px] flex items-center justify-center hover:bg-surface-variant transition-colors active:scale-90">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+<!-- Portions Stepper -->
+<div class="flex items-center gap-4 bg-surface-container-low p-2 rounded-full">
+<span class="text-on-surface-variant font-medium ml-4">Portionen</span>
+<div class="flex items-center gap-3">
+<button class="w-10 h-10 rounded-full bg-surface-container-lowest flex items-center justify-center hover:bg-white transition-colors">
+<span class="material-symbols-outlined" data-icon="remove">remove</span>
+</button>
+<span class="font-bold text-xl w-6 text-center">4</span>
+<button class="w-10 h-10 rounded-full bg-surface-container-lowest flex items-center justify-center hover:bg-white transition-colors">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Ingredients & Steps Grid -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-8 px-6 mt-12 mb-24">
+<!-- Ingredients List -->
+<div class="lg:col-span-4">
+<div class="bg-surface-container-low rounded-xl p-8 sticky top-28">
+<h2 class="text-2xl font-bold text-on-surface mb-8 tracking-tight">Zutaten</h2>
+<ul class="space-y-6">
+<li class="flex items-start gap-4 group cursor-pointer">
+<div class="mt-1 w-6 h-6 rounded-md border-2 border-outline-variant flex items-center justify-center group-hover:border-primary transition-colors">
+<input class="hidden" type="checkbox"/>
+</div>
+<div class="flex-1 border-b border-outline-variant/20 pb-4">
+<span class="block text-lg font-bold text-on-surface">250g</span>
+<span class="text-on-surface-variant">Halloumi-Käse</span>
+</div>
+</li>
+<li class="flex items-start gap-4 group cursor-pointer">
+<div class="mt-1 w-6 h-6 rounded-md border-2 border-outline-variant flex items-center justify-center group-hover:border-primary transition-colors">
+<input class="hidden" type="checkbox"/>
+</div>
+<div class="flex-1 border-b border-outline-variant/20 pb-4">
+<span class="block text-lg font-bold text-on-surface">200g</span>
+<span class="text-on-surface-variant">Frischer Babyspinat</span>
+</div>
+</li>
+<li class="flex items-start gap-4 group cursor-pointer">
+<div class="mt-1 w-6 h-6 rounded-md border-2 border-outline-variant flex items-center justify-center group-hover:border-primary transition-colors">
+<input class="hidden" type="checkbox"/>
+</div>
+<div class="flex-1 border-b border-outline-variant/20 pb-4">
+<span class="block text-lg font-bold text-on-surface">1 Stück</span>
+<span class="text-on-surface-variant">Granatapfel (Kerne)</span>
+</div>
+</li>
+<li class="flex items-start gap-4 group cursor-pointer">
+<div class="mt-1 w-6 h-6 rounded-md border-2 border-outline-variant flex items-center justify-center group-hover:border-primary transition-colors">
+<input class="hidden" type="checkbox"/>
+</div>
+<div class="flex-1 border-b border-outline-variant/20 pb-4">
+<span class="block text-lg font-bold text-on-surface">50ml</span>
+<span class="text-on-surface-variant">Olivenöl Extra Vergine</span>
+</div>
+</li>
+<li class="flex items-start gap-4 group cursor-pointer">
+<div class="mt-1 w-6 h-6 rounded-md border-2 border-outline-variant flex items-center justify-center group-hover:border-primary transition-colors">
+<input class="hidden" type="checkbox"/>
+</div>
+<div class="flex-1 border-b border-outline-variant/20 pb-4">
+<span class="block text-lg font-bold text-on-surface">1 Prise</span>
+<span class="text-on-surface-variant">Meersalz &amp; Pfeffer</span>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<!-- Cooking Steps -->
+<div class="lg:col-span-8 space-y-12">
+<h2 class="text-2xl font-bold text-on-surface tracking-tight border-l-4 border-primary pl-4">Zubereitungsschritte</h2>
+<div class="space-y-16">
+<div class="flex gap-8 group">
+<div class="shrink-0">
+<span class="text-6xl font-bold text-primary/10 group-hover:text-primary/30 transition-colors Epilogue leading-none">01</span>
+</div>
+<div class="space-y-4">
+<h3 class="text-xl font-bold text-on-surface">Vorbereiten &amp; Waschen</h3>
+<p class="text-on-surface text-lg leading-relaxed">Den Babyspinat gründlich waschen und in einer Salatschleuder trocknen. Den Granatapfel halbieren und die Kerne vorsichtig herausklopfen. Achten Sie darauf, die weiße Haut zu entfernen, da diese bitter schmeckt.</p>
+</div>
+</div>
+<div class="flex gap-8 group">
+<div class="shrink-0">
+<span class="text-6xl font-bold text-primary/10 group-hover:text-primary/30 transition-colors Epilogue leading-none">02</span>
+</div>
+<div class="space-y-4">
+<h3 class="text-xl font-bold text-on-surface">Halloumi braten</h3>
+<p class="text-on-surface text-lg leading-relaxed">Den Halloumi in ca. 1cm dicke Scheiben schneiden. Eine Pfanne ohne Fett erhitzen und die Käsescheiben von beiden Seiten goldbraun anbraten (ca. 2-3 Minuten pro Seite).</p>
+<div class="rounded-xl overflow-hidden aspect-video">
+<img alt="Frying halloumi" class="w-full h-full object-cover" data-alt="Close-up of golden brown halloumi slices sizzling in a ceramic pan with steam rising softly" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDq5zWogIjVM0H7A1m4SH2sniCW7vH6GtUI2vFPn7x9UtJ7rTTux2F_wIYWEGdqYX_zD0TsqeYFRcF4OUC49gGpIo8dNk58YSqd7e8myEerkvGgXCXukUmq18ga9k3dAweyCns9wyv8wwlp7qzC9X6lfgGk-hksSkaBibKlnLMKTigZFvHpS47Ecdbz-sbsjuD9Hs6IfJ2C7SJ-UoCZBS-NpYXDoZ9l9lv-8WdtvJ0jK0fJqmws0uVsQ8Eh4rPj8cDl8PRtHZ4lyj4"/>
+</div>
+</div>
+</div>
+<div class="flex gap-8 group">
+<div class="shrink-0">
+<span class="text-6xl font-bold text-primary/10 group-hover:text-primary/30 transition-colors Epilogue leading-none">03</span>
+</div>
+<div class="space-y-4">
+<h3 class="text-xl font-bold text-on-surface">Dressing &amp; Anrichten</h3>
+<p class="text-on-surface text-lg leading-relaxed">Für das Dressing Olivenöl mit etwas Zitronensaft und Honig verquirlen. Den Spinat in eine große Schüssel geben, mit dem Dressing vermengen und die Halloumischeiben sowie Granatapfelkerne darauf verteilen.</p>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-high rounded-xl p-8 flex items-center justify-between">
+<div>
+<h4 class="font-bold text-lg mb-1">Guten Appetit!</h4>
+<p class="text-on-surface-variant">Vergessen Sie nicht, ein Foto zu machen.</p>
+</div>
+<span class="material-symbols-outlined text-4xl text-primary/40" data-icon="restaurant_menu">restaurant_menu</span>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-[#fdf9f3] dark:bg-stone-950 shadow-[0px_-12px_32px_rgba(50,18,0,0.06)] rounded-t-[3rem] border-t-0">
+<a class="flex flex-col items-center justify-center bg-gradient-to-br from-[#974400] to-[#bb5808] text-white rounded-full px-6 py-2 transition-all active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-medium text-[12px] Manrope">Rezepte</span>
+</a>
+<a class="flex flex-col items-center justify-center text-stone-400 dark:text-stone-500 px-4 py-2 hover:text-[#974400] transition-all active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+<span class="font-medium text-[12px] Manrope">Importieren</span>
+</a>
+<a class="flex flex-col items-center justify-center text-stone-400 dark:text-stone-500 px-4 py-2 hover:text-[#974400] transition-all active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-medium text-[12px] Manrope">Profil</span>
+</a>
+</nav>
+</body></html>
