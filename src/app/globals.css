@@ -4,119 +4,159 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ============================================
+   Terracotta Hearth Design System – Tailwind v4
+   42 Color Tokens from Stitch Export
+   ============================================ */
+
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
-  --color-card: var(--card);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
+  /* --- Fonts --- */
+  --font-sans: var(--font-body);
+  --font-mono: "ui-monospace", "SFMono-Regular", monospace;
+  --font-heading: var(--font-headline);
+  --font-headline: var(--font-headline);
+  --font-body: var(--font-body);
+  --font-label: var(--font-body);
+
+  /* --- Material 3 Color Tokens --- */
+  --color-primary: #974400;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #bb5808;
+  --color-on-primary-container: #fffbff;
+  --color-primary-fixed: #ffdbc9;
+  --color-primary-fixed-dim: #ffb68d;
+  --color-on-primary-fixed: #321200;
+  --color-on-primary-fixed-variant: #763400;
+
+  --color-secondary: #77574d;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #fed3c7;
+  --color-on-secondary-container: #795950;
+  --color-secondary-fixed: #ffdbd0;
+  --color-secondary-fixed-dim: #e7bdb1;
+  --color-on-secondary-fixed: #2c160e;
+  --color-on-secondary-fixed-variant: #5d4037;
+
+  --color-tertiary: #9c3e2b;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #bc5540;
+  --color-on-tertiary-container: #fffbff;
+  --color-tertiary-fixed: #ffdad3;
+  --color-tertiary-fixed-dim: #ffb4a5;
+  --color-on-tertiary-fixed: #3e0500;
+  --color-on-tertiary-fixed-variant: #802918;
+
+  --color-error: #ba1a1a;
+  --color-on-error: #ffffff;
+  --color-error-container: #ffdad6;
+  --color-on-error-container: #93000a;
+
+  --color-background: #fdf9f3;
+  --color-on-background: #1c1c18;
+  --color-surface: #fdf9f3;
+  --color-on-surface: #1c1c18;
+  --color-on-surface-variant: #584238;
+  --color-surface-variant: #e6e2dc;
+  --color-surface-tint: #9a4600;
+  --color-surface-bright: #fdf9f3;
+  --color-surface-dim: #dddad4;
+  --color-surface-container: #f1ede7;
+  --color-surface-container-low: #f7f3ed;
+  --color-surface-container-high: #ebe8e2;
+  --color-surface-container-highest: #e6e2dc;
+  --color-surface-container-lowest: #ffffff;
+
+  --color-outline: #8c7166;
+  --color-outline-variant: #e0c0b2;
+
+  --color-inverse-surface: #31302d;
+  --color-inverse-on-surface: #f4f0ea;
+  --color-inverse-primary: #ffb68d;
+
+  /* --- shadcn/ui Mappings (Terracotta Hearth) --- */
+  --color-foreground: #1c1c18;
+  --color-card: #f7f3ed;
+  --color-card-foreground: #1c1c18;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #1c1c18;
+  --color-primary-foreground: #ffffff;
+  --color-secondary-foreground: #ffffff;
+  --color-muted: #f1ede7;
+  --color-muted-foreground: #584238;
+  --color-accent: #ebe8e2;
+  --color-accent-foreground: #1c1c18;
+  --color-destructive: #ba1a1a;
+  --color-border: #e0c0b2;
+  --color-input: #e0c0b2;
+  --color-ring: #974400;
+  --color-chart-1: #974400;
+  --color-chart-2: #77574d;
+  --color-chart-3: #9c3e2b;
+  --color-chart-4: #bb5808;
+  --color-chart-5: #ffb68d;
+
+  /* --- Sidebar (shadcn sidebar mapping) --- */
+  --color-sidebar: #f7f3ed;
+  --color-sidebar-foreground: #1c1c18;
+  --color-sidebar-primary: #974400;
+  --color-sidebar-primary-foreground: #ffffff;
+  --color-sidebar-accent: #ebe8e2;
+  --color-sidebar-accent-foreground: #1c1c18;
+  --color-sidebar-border: #e0c0b2;
+  --color-sidebar-ring: #974400;
+
+  /* --- Border Radius (from Stitch) --- */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 2rem;
+  --radius-2xl: 3rem;
+  --radius-3xl: 9999px;
+  --radius-4xl: 9999px;
 }
 
-:root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-}
-
+/* ============================================
+   Dark Mode Tokens
+   ============================================ */
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --color-background: #1c1c18;
+  --color-on-background: #e6e2dc;
+  --color-surface: #1c1c18;
+  --color-on-surface: #e6e2dc;
+  --color-surface-container: #2a2a25;
+  --color-surface-container-low: #232320;
+  --color-surface-container-high: #35352f;
+  --color-surface-container-highest: #403f3a;
+  --color-surface-container-lowest: #121210;
+  --color-primary: #ffb68d;
+  --color-on-primary: #532200;
+  --color-primary-container: #974400;
+  --color-on-primary-container: #ffdbc9;
+  --color-foreground: #e6e2dc;
+  --color-card: #2a2a25;
+  --color-card-foreground: #e6e2dc;
+  --color-popover: #2a2a25;
+  --color-popover-foreground: #e6e2dc;
+  --color-muted: #35352f;
+  --color-muted-foreground: #a09a94;
+  --color-accent: #35352f;
+  --color-accent-foreground: #e6e2dc;
+  --color-border: #504840;
+  --color-input: #504840;
+  --color-ring: #ffb68d;
+  --color-sidebar: #232320;
+  --color-sidebar-foreground: #e6e2dc;
+  --color-sidebar-primary: #ffb68d;
+  --color-sidebar-primary-foreground: #532200;
+  --color-sidebar-accent: #35352f;
+  --color-sidebar-accent-foreground: #e6e2dc;
+  --color-sidebar-border: #504840;
+  --color-sidebar-ring: #ffb68d;
 }
 
+/* ============================================
+   Base Styles
+   ============================================ */
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -126,5 +166,44 @@
   }
   html {
     @apply font-sans;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-headline);
+  }
+}
+
+/* ============================================
+   Utility Classes
+   ============================================ */
+@layer utilities {
+  /* Hero Gradient für Primary Buttons */
+  .hero-gradient {
+    background: linear-gradient(135deg, #974400, #bb5808);
+  }
+
+  /* Glassmorphism für Top Navigation */
+  .glass-nav {
+    background: rgba(253, 249, 243, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .dark .glass-nav {
+    background: rgba(28, 28, 24, 0.85);
+  }
+
+  /* Material Symbols Outlined */
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+
+  .material-symbols-outlined.filled {
+    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+
+  /* Touch target minimum für Küchen-Nutzung */
+  .touch-target {
+    min-width: 48px;
+    min-height: 48px;
   }
 }
