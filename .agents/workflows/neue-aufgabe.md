@@ -31,16 +31,16 @@ git pull origin main
 git checkout -b <branch-name>
 ```
 
-Branch-Naming basierend auf dem Trello-Label:
-- 🎨 UI/Screen → `feature/<kebab-case-screen-name>`
-- ⚙️ Infrastruktur → `chore/<kebab-case-name>`
-- 🔐 Auth → `feature/auth-<kebab-case-name>`
-- 🧠 Logik/API → `feature/<kebab-case-name>`
-- 📱 PWA → `chore/pwa-<kebab-case-name>`
-- 🧪 Testing → `test/<kebab-case-name>`
-- 🐛 Bug (falls vorhanden) → `fix/<kebab-case-name>`
+Branch-Naming basierend auf dem Trello-Label. Die **Ticket-Nummer** (`idShort` der Trello-Karte, zweistellig mit führender Null) wird immer nach dem Prefix eingefügt:
+- 🎨 UI/Screen → `feature/<NN>-<kebab-case-screen-name>`
+- ⚙️ Infrastruktur → `chore/<NN>-<kebab-case-name>`
+- 🔐 Auth → `feature/<NN>-auth-<kebab-case-name>`
+- 🧠 Logik/API → `feature/<NN>-<kebab-case-name>`
+- 📱 PWA → `chore/<NN>-pwa-<kebab-case-name>`
+- 🧪 Testing → `test/<NN>-<kebab-case-name>`
+- 🐛 Bug (falls vorhanden) → `fix/<NN>-<kebab-case-name>`
 
-Beispiel: Ticket "🏠 Screen: Landing Page" → `feature/landing-page`
+Beispiel: Ticket #2 "🏠 Screen: Landing Page" → `feature/02-landing-page`
 
 ## 5. Tests laufen lassen
 
@@ -117,10 +117,19 @@ Commit-Message Typen:
 
 Verschiebe die Karte in die **✅ Done**-Liste (`69d774abb2bb39651e492734`).
 
-### 12. Main mergen (nach Review)
+### 12. In Main mergen
+
+Merge den Feature-Branch direkt in `main` und pushe:
 
 ```bash
 git checkout main
 git merge <branch-name>
 git push origin main
 ```
+
+Danach den Feature-Branch lokal aufräumen:
+
+```bash
+git branch -d <branch-name>
+```
+
