@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Epilogue, Manrope } from "next/font/google";
+import { SwRegister } from "@/components/sw-register";
 import "./globals.css";
 
 const epilogue = Epilogue({
@@ -23,7 +24,7 @@ export const metadata: Metadata = {
   },
   description:
     "Extrahiere Rezepte von jeder Webseite. Organisiere sie an einem Ort. Koch sie Schritt für Schritt nach.",
-  manifest: "/manifest.json",
+
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
@@ -54,12 +55,18 @@ export default function RootLayout({
     >
       <head>
         <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/icons/apple-touch-icon.png"
+        />
+        <link
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
           rel="stylesheet"
         />
       </head>
       <body className="min-h-full flex flex-col font-body bg-background text-on-surface">
         {children}
+        <SwRegister />
       </body>
     </html>
   );
