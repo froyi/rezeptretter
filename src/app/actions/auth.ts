@@ -2,7 +2,16 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
+
+/** Get the app's base URL from request headers or env */
+async function getBaseUrl() {
+  const headersList = await headers();
+  const host = headersList.get("x-forwarded-host") || headersList.get("host") || "localhost:3000";
+  const protocol = headersList.get("x-forwarded-proto") || "http";
+  return `${protocol}://${host}`;
+}
 
 /* ──────────────────────────────────────────────
  * Email / Password – Registrierung
@@ -81,10 +90,12 @@ export async function signInWithMagicLink(
     return { error: "E-Mail-Adresse ist erforderlich." };
   }
 
+  const baseUrl = await getBaseUrl();
+
   const { error } = await supabase.auth.signInWithOtp({
     email,
     options: {
-      emailRedirectTo: `${process.env.NEXT_PUBLIC_SUPABASE_URL ? "" : ""}${typeof window !== "undefined" ? window.location.origin : process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3333"}/auth/callback`,
+      emailRedirectTo: `${baseUrl}/auth/callback`,
     },
   });
 
@@ -96,15 +107,16 @@ export async function signInWithMagicLink(
 }
 
 /* ──────────────────────────────────────────────
- * Google OAuth – Vorbereitet (nicht aktiv)
+ * Google OAuth
  * ──────────────────────────────────────────────*/
 export async function signInWithGoogle() {
   const supabase = await createClient();
+  const baseUrl = await getBaseUrl();
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
     options: {
-      redirectTo: `${process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3333"}/auth/callback`,
+      redirectTo: `${baseUrl}/auth/callback`,
     },
   });
 
