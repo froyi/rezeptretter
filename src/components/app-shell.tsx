@@ -23,6 +23,12 @@ export function AppShell({ children, userName, onSignOut }: AppShellProps) {
   const pathname = usePathname();
   const activeTab = getActiveTab(pathname);
 
+  // Kochmodus: render children without any navigation chrome
+  const isKochmodus = pathname.endsWith("/kochmodus");
+  if (isKochmodus) {
+    return <>{children}</>;
+  }
+
   return (
     <div className="min-h-screen bg-background">
       {/* TopNavBar – hidden on desktop (sidebar has logo) */}

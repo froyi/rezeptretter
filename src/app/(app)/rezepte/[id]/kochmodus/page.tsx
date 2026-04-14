@@ -1,19 +1,67 @@
-export default function KochmodusPage({
+import { notFound } from "next/navigation";
+import { createClient } from "@/lib/supabase/server";
+import KochmodusClient from "./kochmodus-client";
+import type { Metadata } from "next";
+
+/* ──────────────────────────────────────────────
+ * generateMetadata – Dynamic SEO tags
+ * ──────────────────────────────────────────────*/
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const supabase = await createClient();
+
+  const { data: recipe } = await supabase
+    .from("recipes")
+    .select("title")
+    .eq("id", id)
+    .single();
+
+  return {
+    title: recipe
+      ? `Kochmodus – ${recipe.title} | Rezeptretter`
+      : "Kochmodus | Rezeptretter",
+  };
+}
+
+/* ──────────────────────────────────────────────
+ * Page – Server Component
+ * ──────────────────────────────────────────────*/
+export default async function KochmodusPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
+  const { id } = await params;
+  const supabase = await createClient();
+
+  // Load recipe + ingredients + steps in parallel
+  const [recipeResult, ingredientsResult, stepsResult] = await Promise.all([
+    supabase.from("recipes").select("*").eq("id", id).single(),
+    supabase
+      .from("ingredients")
+      .select("*")
+      .eq("recipe_id", id)
+      .order("sort_order", { ascending: true }),
+    supabase
+      .from("steps")
+      .select("*")
+      .eq("recipe_id", id)
+      .order("sort_order", { ascending: true }),
+  ]);
+
+  if (recipeResult.error || !recipeResult.data) {
+    notFound();
+  }
+
   return (
-    <div className="min-h-screen bg-[#1a1210] text-white flex items-center justify-center">
-      <div className="text-center space-y-4">
-        <span className="material-symbols-outlined text-6xl text-[#E65100]">
-          skillet
-        </span>
-        <h1 className="text-3xl font-headline font-bold">Kochmodus</h1>
-        <p className="text-white/60">
-          Wird im Kochmodus-Ticket implementiert.
-        </p>
-      </div>
-    </div>
+    <KochmodusClient
+      recipe={recipeResult.data}
+      ingredients={ingredientsResult.data || []}
+      steps={stepsResult.data || []}
+    />
   );
 }
