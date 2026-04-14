@@ -47,11 +47,11 @@ self.addEventListener("fetch", (event) => {
   // Skip chrome-extension and other non-http(s) schemes
   if (!url.protocol.startsWith("http")) return;
 
+  // Skip cross-origin requests (Google Fonts, analytics, etc.) – let browser handle them
+  if (url.origin !== self.location.origin) return;
+
   // API requests & Supabase: Network-only (don't cache auth/data)
-  if (
-    url.pathname.startsWith("/api/") ||
-    url.hostname.includes("supabase")
-  ) {
+  if (url.pathname.startsWith("/api/")) {
     return;
   }
 
