@@ -105,3 +105,43 @@ export async function saveRecipe(data: {
   revalidatePath("/rezepte");
   redirect(`/rezepte/${recipeId}`);
 }
+
+/* ──────────────────────────────────────────────
+ * deleteRecipe – Löscht ein Rezept (cascade via FK)
+ * ──────────────────────────────────────────────*/
+export async function deleteRecipe(recipeId: string) {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return { error: "Nicht angemeldet." };
+  }
+
+  // Ensure the recipe belongs to the user
+  const { data: recipe } = await supabase
+    .from("recipes")
+    .select("id")
+    .eq("id", recipeId)
+    .eq("user_id", user.id)
+    .single();
+
+  if (!recipe) {
+    return { error: "Rezept nicht gefunden." };
+  }
+
+  const { error } = await supabase
+    .from("recipes")
+    .delete()
+    .eq("id", recipeId);
+
+  if (error) {
+    console.error("Error deleting recipe:", error);
+    return { error: "Rezept konnte nicht gelöscht werden." };
+  }
+
+  revalidatePath("/rezepte");
+  redirect("/rezepte");
+}
