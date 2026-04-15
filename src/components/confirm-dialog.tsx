@@ -34,7 +34,7 @@ export function ConfirmDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className="bg-surface-container-lowest rounded-3xl border-none shadow-xl max-w-sm mx-auto overflow-hidden"
+        className="bg-surface-container-lowest !rounded-xl border-none shadow-xl max-w-sm mx-auto overflow-hidden"
         showCloseButton={false}
       >
         <DialogHeader className="pt-2">
@@ -52,7 +52,7 @@ export function ConfirmDialog({
             {message}
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter className="mx-0 mb-0 border-none bg-transparent rounded-none flex-row gap-3 justify-center px-2 pb-2">
+        <DialogFooter className="!mx-0 !mb-0 !border-none !bg-transparent !rounded-none flex-row gap-3 justify-center px-2 pb-2">
           <Button
             variant="outline"
             onClick={() => onOpenChange(false)}
