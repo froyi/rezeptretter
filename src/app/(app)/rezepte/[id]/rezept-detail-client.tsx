@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import type { Recipe, Ingredient, Step } from "@/lib/types";
 import { deleteRecipe } from "@/app/actions/recipes";
 import { ConfirmDialog } from "@/components/confirm-dialog";
+import { scaleAmount } from "@/lib/scale-amount";
 
 /* ──────────────────────────────────────────────
  * Types
@@ -15,55 +16,6 @@ interface RezeptDetailClientProps {
   recipe: Recipe;
   ingredients: Ingredient[];
   steps: Step[];
-}
-
-/* ──────────────────────────────────────────────
- * Helper: Scale ingredient amount based on portions
- * ──────────────────────────────────────────────*/
-function scaleAmount(
-  amount: string | null,
-  originalServings: number,
-  currentServings: number,
-): string {
-  if (!amount || originalServings === 0) return amount || "";
-
-  // Try to extract a leading number (handles "250", "1.5", "½", "1/2" etc.)
-  const match = amount.match(
-    /^(\d+[.,]?\d*)\s*(.*)/,
-  );
-
-  if (!match) {
-    // Try unicode fractions
-    const fractionMap: Record<string, number> = {
-      "½": 0.5,
-      "⅓": 1 / 3,
-      "⅔": 2 / 3,
-      "¼": 0.25,
-      "¾": 0.75,
-      "⅕": 0.2,
-      "⅛": 0.125,
-    };
-    const firstChar = amount.charAt(0);
-    if (fractionMap[firstChar]) {
-      const scaled =
-        (fractionMap[firstChar] / originalServings) * currentServings;
-      const rest = amount.slice(1).trim();
-      return `${formatNumber(scaled)}${rest ? " " + rest : ""}`;
-    }
-    return amount;
-  }
-
-  const num = parseFloat(match[1].replace(",", "."));
-  const unit = match[2];
-  const scaled = (num / originalServings) * currentServings;
-
-  return `${formatNumber(scaled)}${unit ? " " + unit : ""}`;
-}
-
-function formatNumber(n: number): string {
-  if (Number.isInteger(n)) return n.toString();
-  // Show max 2 decimal places, strip trailing zeros
-  return parseFloat(n.toFixed(2)).toString().replace(".", ",");
 }
 
 /* ──────────────────────────────────────────────
@@ -208,7 +160,7 @@ export default function RezeptDetailClient({
           <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
             {/* Kochmodus Button */}
             <Link
-              href={`/rezepte/${recipe.id}/kochmodus`}
+              href={`/rezepte/${recipe.id}/kochmodus${servings !== originalServings ? `?portionen=${servings}` : ""}`}
               className="hero-gradient text-white rounded-full h-[52px] md:h-[56px] px-6 md:px-8 flex items-center justify-center gap-3 font-bold hover:brightness-110 transition-all active:scale-95"
             >
               <span className="material-symbols-outlined">play_circle</span>

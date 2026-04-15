@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from "react";
 import type { Ingredient } from "@/lib/types/database.types";
+import { scaleAmount } from "@/lib/scale-amount";
 import {
   Sheet,
   SheetContent,
@@ -11,18 +12,23 @@ import {
 
 /* ──────────────────────────────────────────────
  * Zutaten Bottom-Sheet für den Kochmodus
- * Zeigt alle Zutaten mit Abhak-Funktion
+ * Zeigt alle Zutaten mit Abhak-Funktion,
+ * skaliert die Mengen wenn Portionen angepasst wurden
  * ──────────────────────────────────────────────*/
 interface IngredientsSheetProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   ingredients: Ingredient[];
+  originalServings: number;
+  currentServings: number;
 }
 
 export default function IngredientsSheet({
   open,
   onOpenChange,
   ingredients,
+  originalServings,
+  currentServings,
 }: IngredientsSheetProps) {
   const [checked, setChecked] = useState<Set<string>>(new Set());
 
@@ -34,6 +40,8 @@ export default function IngredientsSheet({
       return next;
     });
   }, []);
+
+  const isScaled = currentServings !== originalServings;
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -48,6 +56,12 @@ export default function IngredientsSheet({
           <SheetTitle className="text-xl font-headline font-bold text-on-surface">
             Zutaten
           </SheetTitle>
+          {isScaled && (
+            <p className="text-sm flex items-center gap-1.5 mt-1" style={{ color: "var(--cook-primary)" }}>
+              <span className="material-symbols-outlined text-base">calculate</span>
+              umgerechnet für {currentServings} Portionen
+            </p>
+          )}
         </SheetHeader>
 
         <div className="px-6 pb-4">
@@ -55,6 +69,11 @@ export default function IngredientsSheet({
             {ingredients.map((ing) => {
               const id = ing.id || `${ing.sort_order}`;
               const isChecked = checked.has(id);
+              const displayAmount = scaleAmount(
+                ing.amount,
+                originalServings,
+                currentServings,
+              );
 
               return (
                 <li
@@ -83,9 +102,9 @@ export default function IngredientsSheet({
                       isChecked ? "opacity-40 line-through" : ""
                     }`}
                   >
-                    {ing.amount && (
+                    {displayAmount && (
                       <span className="font-bold text-on-surface mr-2">
-                        {ing.amount}
+                        {displayAmount}
                       </span>
                     )}
                     <span className="text-on-surface-variant">{ing.name}</span>

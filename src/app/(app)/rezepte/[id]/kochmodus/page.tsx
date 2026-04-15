@@ -32,10 +32,13 @@ export async function generateMetadata({
  * ──────────────────────────────────────────────*/
 export default async function KochmodusPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ portionen?: string }>;
 }) {
   const { id } = await params;
+  const { portionen } = await searchParams;
   const supabase = await createClient();
 
   // Load recipe + ingredients + steps in parallel
@@ -57,11 +60,17 @@ export default async function KochmodusPage({
     notFound();
   }
 
+  const recipe = recipeResult.data;
+  const originalServings = recipe.servings || 4;
+  const currentServings = portionen ? parseInt(portionen, 10) || originalServings : originalServings;
+
   return (
     <KochmodusClient
-      recipe={recipeResult.data}
+      recipe={recipe}
       ingredients={ingredientsResult.data || []}
       steps={stepsResult.data || []}
+      originalServings={originalServings}
+      currentServings={currentServings}
     />
   );
 }
