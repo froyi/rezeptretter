@@ -185,12 +185,13 @@ export default function LoginPage() {
                 </div>
               )}
 
-              {/* Google Login (prepared, disabled) */}
+              {/* Google Login */}
               <button
                 type="button"
-                disabled
-                className="w-full h-14 bg-white border border-outline-variant/50 text-on-surface font-label font-bold rounded-full flex items-center justify-center gap-3 transition-all hover:bg-surface-container-low active:scale-95 duration-150 opacity-40 cursor-not-allowed"
-                title="Google Login kommt bald"
+                onClick={() => {
+                  import("@/app/actions/auth").then((m) => m.signInWithGoogle());
+                }}
+                className="w-full h-14 bg-white border border-outline-variant/50 text-on-surface font-label font-bold rounded-full flex items-center justify-center gap-3 transition-all hover:bg-surface-container-low active:scale-95 duration-150"
               >
                 <svg className="w-5 h-5" viewBox="0 0 24 24">
                   <path

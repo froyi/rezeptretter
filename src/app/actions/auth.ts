@@ -96,15 +96,21 @@ export async function signInWithMagicLink(
 }
 
 /* ──────────────────────────────────────────────
- * Google OAuth – Vorbereitet (nicht aktiv)
+ * Google OAuth
  * ──────────────────────────────────────────────*/
 export async function signInWithGoogle() {
   const supabase = await createClient();
 
+  const siteUrl =
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    (process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "http://localhost:3000");
+
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
     options: {
-      redirectTo: `${process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3333"}/auth/callback`,
+      redirectTo: `${siteUrl}/auth/callback`,
     },
   });
 
