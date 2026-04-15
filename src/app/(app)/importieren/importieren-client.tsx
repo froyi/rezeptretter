@@ -21,6 +21,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { saveRecipe } from "@/app/actions/recipes";
 import { ConfirmDialog } from "@/components/confirm-dialog";
+import { useOnlineStatus } from "@/hooks/use-online-status";
 import type { Ingredient, Step, ParsedRecipe } from "@/lib/types";
 
 /* ──────────────────────────────────────────────
@@ -95,6 +96,7 @@ function SortableIngredient({
 export function ImportierenClient() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const isOnline = useOnlineStatus();
 
   const [state, setState] = useState<ImportState>("idle");
   const [url, setUrl] = useState("");
@@ -120,11 +122,19 @@ export function ImportierenClient() {
     })
   );
 
-  // Auto-fill from query param
+  // Auto-fill from query param (Share Target support)
   useEffect(() => {
     const urlParam = searchParams.get("url");
+    const textParam = searchParams.get("text");
+
     if (urlParam) {
       setUrl(urlParam);
+    } else if (textParam) {
+      // Android often shares the URL in the 'text' field
+      const urlMatch = textParam.match(/https?:\/\/[^\s]+/);
+      if (urlMatch) {
+        setUrl(urlMatch[0]);
+      }
     }
   }, [searchParams]);
 
@@ -326,15 +336,16 @@ export function ImportierenClient() {
                   onChange={(e) => setUrl(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleImport()}
                   className="w-full h-16 pl-14 pr-6 bg-surface-container-lowest border-none rounded-full text-lg focus:ring-2 focus:ring-primary/40 placeholder:text-outline-variant transition-all"
-                  placeholder="Rezept-URL einfügen..."
-                  disabled={state === "loading"}
+                  placeholder={!isOnline ? "Offline – Import nicht verfügbar" : "Rezept-URL einfügen..."}
+                  disabled={state === "loading" || !isOnline}
                 />
               </div>
               <button
                 type="button"
                 onClick={handlePaste}
-                className="h-16 px-5 bg-surface-container rounded-full text-primary hover:bg-surface-container-high transition-colors flex items-center gap-2 shrink-0"
-                title="Aus Zwischenablage einfügen"
+                className="h-16 px-5 bg-surface-container rounded-full text-primary hover:bg-surface-container-high transition-colors flex items-center gap-2 shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
+                title={!isOnline ? "Offline" : "Aus Zwischenablage einfügen"}
+                disabled={!isOnline}
               >
                 <span className="material-symbols-outlined">
                   content_paste_go
@@ -348,7 +359,7 @@ export function ImportierenClient() {
             <button
               type="button"
               onClick={handleImport}
-              disabled={!url.trim() || state === "loading"}
+              disabled={!url.trim() || state === "loading" || !isOnline}
               className="w-full md:w-auto px-10 h-14 hero-gradient text-white rounded-full font-bold text-lg hover:opacity-90 active:scale-95 transition-all flex items-center justify-center gap-3 shadow-lg shadow-primary/10 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {state === "loading" ? (

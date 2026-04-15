@@ -34,6 +34,8 @@ export default function manifest(): MetadataRoute.Manifest {
       method: "GET",
       params: {
         url: "url",
+        title: "title",
+        text: "text",
       },
     },
   };

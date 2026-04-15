@@ -1,8 +1,8 @@
-// Rezeptretter Service Worker v1
+// Rezeptretter Service Worker v2
 // Caching strategy: Cache-First for static, Network-First for pages/API
 
-const CACHE_NAME = "rezeptretter-v1";
-const STATIC_CACHE = "rezeptretter-static-v1";
+const CACHE_NAME = "rezeptretter-v2";
+const STATIC_CACHE = "rezeptretter-static-v2";
 
 // Assets to pre-cache on install
 const PRECACHE_ASSETS = [
@@ -49,6 +49,16 @@ self.addEventListener("fetch", (event) => {
 
   // Skip cross-origin requests (Google Fonts, analytics, etc.) – let browser handle them
   if (url.origin !== self.location.origin) return;
+
+  // Share Target: /importieren with share params → always go to network
+  if (
+    url.pathname === "/importieren" &&
+    (url.searchParams.has("url") ||
+      url.searchParams.has("text") ||
+      url.searchParams.has("title"))
+  ) {
+    return; // Let the browser handle it (network navigation)
+  }
 
   // API requests & Supabase: Network-only (don't cache auth/data)
   if (url.pathname.startsWith("/api/")) {
