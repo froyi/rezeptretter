@@ -17,6 +17,8 @@ interface KochmodusClientProps {
   recipe: Recipe;
   ingredients: Ingredient[];
   steps: Step[];
+  originalServings: number;
+  currentServings: number;
 }
 
 interface TimerState {
@@ -32,6 +34,8 @@ export default function KochmodusClient({
   recipe,
   ingredients,
   steps,
+  originalServings,
+  currentServings,
 }: KochmodusClientProps) {
   const router = useRouter();
 
@@ -450,7 +454,7 @@ export default function KochmodusClient({
               </span>
             </div>
             <span className="font-extrabold text-on-surface text-sm">
-              Zutaten für diesen Schritt
+              Zutaten{currentServings !== originalServings ? ` (${currentServings} Portionen)` : ""}
             </span>
           </div>
           <span className="material-symbols-outlined text-gray-400">
@@ -491,6 +495,8 @@ export default function KochmodusClient({
         open={showIngredients}
         onOpenChange={setShowIngredients}
         ingredients={ingredients}
+        originalServings={originalServings}
+        currentServings={currentServings}
       />
 
       {/* ── Exit Confirm Dialog ── */}
