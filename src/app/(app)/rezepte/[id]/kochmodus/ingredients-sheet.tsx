@@ -40,7 +40,7 @@ export default function IngredientsSheet({
       <SheetContent
         side="bottom"
         showCloseButton={false}
-        className="rounded-t-3xl max-h-[70vh] overflow-y-auto border-none bg-white pb-8"
+        className="rounded-t-xl max-h-[70vh] overflow-y-auto border-none bg-white pb-8"
       >
         <SheetHeader className="pb-2 pt-6 px-6">
           {/* Drag handle */}

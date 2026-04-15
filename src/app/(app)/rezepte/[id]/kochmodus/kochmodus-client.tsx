@@ -373,7 +373,7 @@ export default function KochmodusClient({
 
         {/* ── Content Card (overlaps image) ── */}
         <div className="px-6 -mt-8 relative z-10">
-          <div className="bg-white rounded-t-[3rem] p-8 shadow-2xl border-t border-gray-100">
+          <div className="bg-white rounded-t-xl p-8 shadow-2xl border-t border-gray-100">
             {/* Full step description */}
             <p className="text-[20px] leading-[1.6] text-on-surface font-medium mb-10">
               {step.description}

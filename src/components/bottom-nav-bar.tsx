@@ -21,7 +21,7 @@ const tabs: { id: TabId; icon: string; label: string; href: string }[] = [
 
 export function BottomNavBar({ activeTab }: BottomNavBarProps) {
   return (
-    <nav className="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-surface rounded-t-[3rem] shadow-[0px_-12px_32px_rgba(50,18,0,0.06)] lg:hidden">
+    <nav className="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-surface rounded-t-xl shadow-[0px_-12px_32px_rgba(50,18,0,0.06)] lg:hidden">
       {tabs.map((tab) => {
         const isActive = activeTab === tab.id;
         return (
