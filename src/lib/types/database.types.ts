@@ -3,12 +3,30 @@
  * ──────────────────────────────────────────────*/
 
 export type Difficulty = "Leicht" | "Mittel" | "Schwer";
+export type CookModeFontSize = "normal" | "large" | "xlarge";
+export type DarkModePreference = "light" | "dark" | "system";
+
+export interface UserSettings {
+  default_servings: number;
+  cook_mode_font_size: CookModeFontSize;
+  timer_sound: boolean;
+  timer_vibration: boolean;
+  dark_mode: DarkModePreference;
+}
+
+export const DEFAULT_SETTINGS: UserSettings = {
+  default_servings: 2,
+  cook_mode_font_size: "normal",
+  timer_sound: true,
+  timer_vibration: true,
+  dark_mode: "system",
+};
 
 export interface Profile {
   id: string;
   display_name: string | null;
   avatar_url: string | null;
-  settings: Record<string, unknown>;
+  settings: UserSettings;
   created_at: string;
 }
 
