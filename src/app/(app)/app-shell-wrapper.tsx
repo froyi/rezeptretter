@@ -1,6 +1,8 @@
 "use client";
 
 import { AppShell } from "@/components/app-shell";
+import { OfflineBanner } from "@/components/offline-banner";
+import { InstallPrompt } from "@/components/install-prompt";
 
 interface AppShellWrapperProps {
   children: React.ReactNode;
@@ -14,8 +16,13 @@ export function AppShellWrapper({
   signOutAction,
 }: AppShellWrapperProps) {
   return (
-    <AppShell userName={userName} onSignOut={() => signOutAction()}>
-      {children}
-    </AppShell>
+    <>
+      <OfflineBanner />
+      <AppShell userName={userName} onSignOut={() => signOutAction()}>
+        {children}
+      </AppShell>
+      <InstallPrompt />
+    </>
   );
 }
+
