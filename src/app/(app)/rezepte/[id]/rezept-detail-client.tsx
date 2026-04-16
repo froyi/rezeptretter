@@ -169,13 +169,14 @@ export default function RezeptDetailClient({
 
             {/* Edit + Delete */}
             <div className="flex gap-2">
-              <button
+              <Link
+                href={`/rezepte/${recipe.id}/bearbeiten`}
                 className="bg-surface-container-high text-primary rounded-full w-[52px] h-[52px] md:w-[56px] md:h-[56px] flex items-center justify-center hover:bg-surface-variant transition-colors active:scale-90"
                 aria-label="Bearbeiten"
                 title="Bearbeiten"
               >
                 <span className="material-symbols-outlined">edit</span>
-              </button>
+              </Link>
               <button
                 onClick={() => setShowDeleteDialog(true)}
                 className="bg-surface-container-high text-primary rounded-full w-[52px] h-[52px] md:w-[56px] md:h-[56px] flex items-center justify-center hover:bg-surface-variant transition-colors active:scale-90"

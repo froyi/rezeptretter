@@ -145,3 +145,120 @@ export async function deleteRecipe(recipeId: string) {
   revalidatePath("/rezepte");
   redirect("/rezepte");
 }
+
+/* ──────────────────────────────────────────────
+ * updateRecipe – Aktualisiert ein bestehendes Rezept
+ * Strategie: Recipe-Meta updaten, alte Zutaten/Schritte löschen,
+ * neue einfügen. Einfacher & sicherer als Row-Level-Diffing.
+ * ──────────────────────────────────────────────*/
+export async function updateRecipe(
+  recipeId: string,
+  data: {
+    title: string;
+    image_url: string | null;
+    cooking_time: number | null;
+    servings: number | null;
+    difficulty: string | null;
+    source_url: string | null;
+    source_name: string | null;
+    ingredients: Ingredient[];
+    steps: Step[];
+  },
+) {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return { error: "Nicht angemeldet." };
+  }
+
+  // Verify ownership
+  const { data: existing } = await supabase
+    .from("recipes")
+    .select("id")
+    .eq("id", recipeId)
+    .eq("user_id", user.id)
+    .single();
+
+  if (!existing) {
+    return { error: "Rezept nicht gefunden." };
+  }
+
+  // 1. UPDATE recipe metadata
+  const { error: updateError } = await supabase
+    .from("recipes")
+    .update({
+      title: data.title.trim(),
+      image_url: data.image_url,
+      cooking_time: data.cooking_time,
+      servings: data.servings,
+      difficulty: data.difficulty,
+      source_url: data.source_url,
+      source_name: data.source_name,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", recipeId);
+
+  if (updateError) {
+    console.error("Error updating recipe:", updateError);
+    return { error: "Rezept konnte nicht aktualisiert werden." };
+  }
+
+  // 2. DELETE old ingredients & steps (cascade won't help here since we keep the recipe)
+  await supabase.from("ingredients").delete().eq("recipe_id", recipeId);
+  await supabase.from("steps").delete().eq("recipe_id", recipeId);
+
+  // 3. INSERT new ingredients
+  if (data.ingredients.length > 0) {
+    const ingredientRows = data.ingredients
+      .filter((ing) => ing.name.trim().length > 0)
+      .map((ing, index) => ({
+        recipe_id: recipeId,
+        amount: ing.amount?.trim() || null,
+        name: ing.name.trim(),
+        sort_order: index,
+      }));
+
+    if (ingredientRows.length > 0) {
+      const { error: ingError } = await supabase
+        .from("ingredients")
+        .insert(ingredientRows);
+
+      if (ingError) {
+        console.error("Error saving ingredients:", ingError);
+      }
+    }
+  }
+
+  // 4. INSERT new steps
+  if (data.steps.length > 0) {
+    const stepRows = data.steps
+      .filter((step) => step.description.trim().length > 0)
+      .map((step, index) => ({
+        recipe_id: recipeId,
+        step_number: index + 1,
+        title: step.title?.trim() || null,
+        description: step.description.trim(),
+        timer_seconds: step.timer_seconds || null,
+        tip: step.tip?.trim() || null,
+        sort_order: index,
+      }));
+
+    if (stepRows.length > 0) {
+      const { error: stepError } = await supabase
+        .from("steps")
+        .insert(stepRows);
+
+      if (stepError) {
+        console.error("Error saving steps:", stepError);
+      }
+    }
+  }
+
+  revalidatePath("/rezepte");
+  revalidatePath(`/rezepte/${recipeId}`);
+  redirect(`/rezepte/${recipeId}`);
+}
