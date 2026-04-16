@@ -7,21 +7,26 @@ import type { Recipe } from "@/lib/types";
 import { RecipeCard } from "@/components/recipe-card";
 import { EmptyState } from "@/components/empty-state";
 
-const CATEGORIES = [
-  { label: "Alle Rezepte", value: null },
-  { label: "Vegetarisch", value: "Vegetarisch" },
-  { label: "Schnelle Küche", value: "Schnelle Küche" },
-  { label: "Backen", value: "Backen" },
-];
+
+type RecipeWithIngredients = Recipe & { ingredients: { name: string }[] };
 
 interface RezepteClientProps {
-  recipes: Recipe[];
+  recipes: RecipeWithIngredients[];
 }
 
 export function RezepteClient({ recipes }: RezepteClientProps) {
   const router = useRouter();
   const [search, setSearch] = useState("");
-  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [activeSource, setActiveSource] = useState<string | null>(null);
+
+  // Dynamische Quellen-Chips basierend auf vorhandenen Rezepten
+  const sources = useMemo(() => {
+    const sourceSet = new Set<string>();
+    recipes.forEach((r) => {
+      if (r.source_name) sourceSet.add(r.source_name);
+    });
+    return Array.from(sourceSet).sort();
+  }, [recipes]);
 
   const filtered = useMemo(() => {
     let result = recipes;
@@ -32,17 +37,18 @@ export function RezepteClient({ recipes }: RezepteClientProps) {
       result = result.filter(
         (r) =>
           r.title.toLowerCase().includes(q) ||
-          r.source_name?.toLowerCase().includes(q)
+          r.source_name?.toLowerCase().includes(q) ||
+          r.ingredients?.some((ing) => ing.name.toLowerCase().includes(q))
       );
     }
 
-    // Category filter
-    if (activeCategory) {
-      result = result.filter((r) => r.category?.includes(activeCategory));
+    // Source filter
+    if (activeSource) {
+      result = result.filter((r) => r.source_name === activeSource);
     }
 
     return result;
-  }, [recipes, search, activeCategory]);
+  }, [recipes, search, activeSource]);
 
   // Empty state
   if (recipes.length === 0) {
@@ -89,25 +95,37 @@ export function RezepteClient({ recipes }: RezepteClientProps) {
         </div>
       </section>
 
-      {/* Category Chips */}
-      <section className="mb-8 flex gap-3 overflow-x-auto pb-2 no-scrollbar">
-        {CATEGORIES.map((cat) => (
+      {/* Source Filter Chips */}
+      {sources.length > 1 && (
+        <section className="mb-8 flex gap-3 overflow-x-auto pb-2 no-scrollbar">
           <button
-            key={cat.label}
-            onClick={() => setActiveCategory(cat.value)}
+            onClick={() => setActiveSource(null)}
             className={`whitespace-nowrap px-6 py-3 rounded-full font-medium text-sm transition-all ${
-              activeCategory === cat.value
+              activeSource === null
                 ? "bg-primary text-on-primary shadow-lg shadow-primary/10"
                 : "bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest"
             }`}
           >
-            {cat.label}
+            Alle Quellen
           </button>
-        ))}
-      </section>
+          {sources.map((source) => (
+            <button
+              key={source}
+              onClick={() => setActiveSource(activeSource === source ? null : source)}
+              className={`whitespace-nowrap px-6 py-3 rounded-full font-medium text-sm transition-all ${
+                activeSource === source
+                  ? "bg-primary text-on-primary shadow-lg shadow-primary/10"
+                  : "bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest"
+              }`}
+            >
+              {source}
+            </button>
+          ))}
+        </section>
+      )}
 
       {/* Results count */}
-      {(search || activeCategory) && (
+      {(search || activeSource) && (
         <p className="text-sm text-on-surface-variant mb-4">
           {filtered.length}{" "}
           {filtered.length === 1 ? "Rezept" : "Rezepte"} gefunden
@@ -135,7 +153,7 @@ export function RezepteClient({ recipes }: RezepteClientProps) {
         <EmptyState
           icon="search_off"
           title="Keine Treffer"
-          description={`Kein Rezept passt zu "${search}"${activeCategory ? ` in der Kategorie "${activeCategory}"` : ""}.`}
+          description={`Kein Rezept passt zu "${search}"${activeSource ? ` von "${activeSource}"` : ""}.`}
         />
       )}
 

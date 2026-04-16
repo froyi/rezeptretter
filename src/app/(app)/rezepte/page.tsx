@@ -7,12 +7,12 @@ export default async function RezeptePage() {
 
   const { data: recipes, error } = await supabase
     .from("recipes")
-    .select("*")
+    .select("*, ingredients(name)")
     .order("created_at", { ascending: false });
 
   if (error) {
     console.error("Error fetching recipes:", error);
   }
 
-  return <RezepteClient recipes={(recipes as Recipe[]) ?? []} />;
+  return <RezepteClient recipes={(recipes as (Recipe & { ingredients: { name: string }[] })[]) ?? []} />;
 }
