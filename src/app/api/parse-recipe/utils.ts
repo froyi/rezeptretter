@@ -71,7 +71,7 @@ export function parseIngredients(data: any): Ingredient[] {
 }
 
 /** Split "250g Pasta" → { amount: "250g", name: "Pasta" } */
-function splitIngredient(text: string): { amount: string; name: string } {
+export function splitIngredient(text: string): { amount: string; name: string } {
   // Match patterns like "250 g Pasta", "2 EL Olivenöl", "1/2 Zitrone"
   const match = text.match(
     /^([\d/.,]+\s*(?:g|kg|ml|l|EL|TL|Prise|Stück|Scheibe[n]?|Dose[n]?|Bund|Zehe[n]?|Becher|Packung|Pck\.?|Tasse[n]?|Cup[s]?|oz|lb)?\.?\s*)/i
