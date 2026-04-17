@@ -103,6 +103,12 @@ export function ImportierenClient() {
   const [errorMsg, setErrorMsg] = useState("");
   const [saving, setSaving] = useState(false);
   const [showDiscard, setShowDiscard] = useState(false);
+  const [isSocialImport, setIsSocialImport] = useState(false);
+
+  // Detect social media URLs
+  const isSocialUrl = useCallback((urlStr: string) => {
+    return /^https?:\/\/(www\.)?instagram\.com\/(p|reel|reels)\//i.test(urlStr.trim());
+  }, []);
 
   // Editable recipe data
   const [title, setTitle] = useState("");
@@ -144,6 +150,7 @@ export function ImportierenClient() {
 
     setState("loading");
     setErrorMsg("");
+    setIsSocialImport(isSocialUrl(url));
 
     try {
       const res = await fetch("/api/parse-recipe", {
@@ -336,7 +343,7 @@ export function ImportierenClient() {
                   onChange={(e) => setUrl(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleImport()}
                   className="w-full h-16 pl-14 pr-6 bg-surface-container-lowest border-none rounded-full text-lg focus:ring-2 focus:ring-primary/40 placeholder:text-outline-variant transition-all"
-                  placeholder={!isOnline ? "Offline – Import nicht verfügbar" : "Rezept-URL einfügen..."}
+                  placeholder={!isOnline ? "Offline – Import nicht verfügbar" : "Rezept-URL oder Instagram-Link einfügen..."}
                   disabled={state === "loading" || !isOnline}
                 />
               </div>
@@ -367,14 +374,22 @@ export function ImportierenClient() {
                   <span className="material-symbols-outlined animate-spin">
                     progress_activity
                   </span>
-                  Rezept wird extrahiert...
+                  {isSocialUrl(url)
+                    ? "Rezept wird per KI analysiert..."
+                    : "Rezept wird extrahiert..."}
                 </>
               ) : (
                 <>
                   <span className="material-symbols-outlined">
-                    auto_awesome
+                    {isSocialUrl(url) ? "auto_awesome" : "auto_awesome"}
                   </span>
-                  Rezept importieren
+                  {isSocialUrl(url) ? (
+                    <span className="flex items-center gap-2">
+                      Instagram-Rezept importieren
+                    </span>
+                  ) : (
+                    "Rezept importieren"
+                  )}
                 </>
               )}
             </button>
@@ -427,6 +442,24 @@ export function ImportierenClient() {
         {/* ── Preview & Edit ── */}
         {state === "preview" && (
           <section className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
+            {/* AI Review Banner */}
+            {isSocialImport && (
+              <div className="bg-tertiary-container/30 border border-tertiary/20 p-4 rounded-xl flex items-start gap-3 animate-in fade-in slide-in-from-top-2 duration-500">
+                <span className="material-symbols-outlined text-tertiary text-xl mt-0.5 shrink-0">
+                  auto_awesome
+                </span>
+                <div>
+                  <p className="font-semibold text-on-surface text-sm">
+                    KI-extrahiertes Rezept
+                  </p>
+                  <p className="text-on-surface-variant text-sm">
+                    Dieses Rezept wurde per KI aus einem Instagram-Post extrahiert.
+                    Bitte prüfe Zutaten und Schritte vor dem Speichern.
+                  </p>
+                </div>
+              </div>
+            )}
+
             {/* Divider */}
             <div className="flex items-center gap-4">
               <div className="h-px flex-1 bg-outline-variant/20" />

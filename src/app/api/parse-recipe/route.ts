@@ -11,6 +11,35 @@ import {
   findRecipeInJsonLd,
   extractSourceName,
 } from "./utils";
+import {
+  isSocialMediaUrl,
+  parseSocialMediaRecipe,
+} from "./social-media-parser";
+
+/* ──────────────────────────────────────────────
+ * Rate Limiting (in-memory, per IP)
+ * Limits AI-powered social media imports to prevent
+ * excessive Gemini API usage. Resets hourly.
+ * ──────────────────────────────────────────────*/
+const AI_RATE_LIMIT = 20; // max AI imports per hour per IP
+const AI_RATE_WINDOW_MS = 60 * 60 * 1000; // 1 hour
+
+const rateLimitMap = new Map<string, number[]>();
+
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now();
+  const timestamps = rateLimitMap.get(ip) || [];
+  // Remove entries outside the window
+  const recent = timestamps.filter((t) => now - t < AI_RATE_WINDOW_MS);
+  rateLimitMap.set(ip, recent);
+  return recent.length < AI_RATE_LIMIT;
+}
+
+function recordRateLimitHit(ip: string): void {
+  const timestamps = rateLimitMap.get(ip) || [];
+  timestamps.push(Date.now());
+  rateLimitMap.set(ip, timestamps);
+}
 
 /* ──────────────────────────────────────────────
  * POST /api/parse-recipe
@@ -86,6 +115,42 @@ export async function POST(request: NextRequest) {
     }
 
     const $ = cheerio.load(html);
+
+    // Strategy 0: Social Media (Instagram/TikTok) via Gemini AI
+    if (isSocialMediaUrl(parsedUrl)) {
+      // Rate limit AI imports
+      const clientIp =
+        request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+        request.headers.get("x-real-ip") ||
+        "unknown";
+      if (!checkRateLimit(clientIp)) {
+        return NextResponse.json(
+          {
+            error:
+              "Zu viele KI-Imports. Bitte warte eine Stunde und versuche es erneut.",
+          },
+          { status: 429 }
+        );
+      }
+
+      recordRateLimitHit(clientIp);
+      const socialRecipe = await parseSocialMediaRecipe($);
+      if (socialRecipe) {
+        return NextResponse.json({
+          ...socialRecipe,
+          source_url: url,
+          source_name: extractSourceName(parsedUrl),
+        });
+      }
+      // If Gemini couldn't extract a recipe, return a clear error
+      return NextResponse.json(
+        {
+          error:
+            "Kein Rezept erkannt. Der Post scheint kein Rezept zu enthalten, oder die KI konnte es nicht extrahieren.",
+        },
+        { status: 404 }
+      );
+    }
 
     // Strategy 1: Schema.org JSON-LD
     const recipe = parseSchemaOrgJsonLd($);

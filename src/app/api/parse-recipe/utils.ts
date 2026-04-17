@@ -1,10 +1,9 @@
-/* ──────────────────────────────────────────────
- * parse-recipe utility functions
- * Extracted from route.ts for testability
- * ──────────────────────────────────────────────*/
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Ingredient, Step } from "@/lib/types";
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* ──────────────────────────────────────────────
+ * Utility Functions for Recipe Parsing
+ * ──────────────────────────────────────────────*/
 
 export function extractText(value: any): string | null {
   if (!value) return null;
@@ -65,23 +64,17 @@ export function parseIngredients(data: any): Ingredient[] {
       return text && text.trim().length > 0;
     })
     .map((item: any, index: number) => {
-      const text =
-        typeof item === "string"
-          ? item.trim()
-          : (item?.text || item?.name || "").trim();
+      const text = typeof item === "string" ? item.trim() : (item?.text || item?.name || "").trim();
       const { amount, name } = splitIngredient(text);
       return { amount, name, sort_order: index };
     });
 }
 
 /** Split "250g Pasta" → { amount: "250g", name: "Pasta" } */
-export function splitIngredient(text: string): {
-  amount: string;
-  name: string;
-} {
+function splitIngredient(text: string): { amount: string; name: string } {
   // Match patterns like "250 g Pasta", "2 EL Olivenöl", "1/2 Zitrone"
   const match = text.match(
-    /^([\d/.,]+\s*(?:g|kg|ml|l|EL|TL|Prise|Stück|Scheibe[n]?|Dose[n]?|Bund|Zehe[n]?|Becher|Packung|Pck\.?\s*|Tasse[n]?|Cup[s]?|oz|lb)?\.?\s*)/i,
+    /^([\d/.,]+\s*(?:g|kg|ml|l|EL|TL|Prise|Stück|Scheibe[n]?|Dose[n]?|Bund|Zehe[n]?|Becher|Packung|Pck\.?|Tasse[n]?|Cup[s]?|oz|lb)?\.?\s*)/i
   );
 
   if (match && match[1].trim()) {
@@ -139,8 +132,7 @@ export function parseSteps(data: any): Step[] {
       return {
         step_number: index + 1,
         title: extractText(item.name) || null,
-        description:
-          extractText(item.text) || extractText(item.description) || "",
+        description: extractText(item.text) || extractText(item.description) || "",
         timer_seconds: null,
         tip: null,
       };
@@ -150,29 +142,30 @@ export function parseSteps(data: any): Step[] {
     .map((s: Step, i: number) => ({ ...s, step_number: i + 1 }));
 }
 
+/**
+ * Recursively find a Recipe object in JSON-LD data
+ * (handles @graph arrays and nested structures)
+ */
 export function findRecipeInJsonLd(data: any): any | null {
   if (!data) return null;
 
-  // Direct Recipe type
   if (data["@type"] === "Recipe") return data;
-
-  // Array of types (e.g., ["Recipe", "Thing"])
   if (Array.isArray(data["@type"]) && data["@type"].includes("Recipe"))
     return data;
 
-  // @graph array
+  // Check @graph
   if (data["@graph"] && Array.isArray(data["@graph"])) {
     for (const item of data["@graph"]) {
-      const result = findRecipeInJsonLd(item);
-      if (result) return result;
+      const found = findRecipeInJsonLd(item);
+      if (found) return found;
     }
   }
 
-  // Array of objects
+  // Check array root
   if (Array.isArray(data)) {
     for (const item of data) {
-      const result = findRecipeInJsonLd(item);
-      if (result) return result;
+      const found = findRecipeInJsonLd(item);
+      if (found) return found;
     }
   }
 
@@ -195,10 +188,7 @@ export function extractSourceName(url: URL): string {
     "springlane.de": "Springlane",
     "cookidoo.de": "Cookidoo",
   };
-  return (
-    nameMap[host] ||
-    host.split(".")[0].charAt(0).toUpperCase() + host.split(".")[0].slice(1)
-  );
+  return nameMap[host] || host.split(".")[0].charAt(0).toUpperCase() + host.split(".")[0].slice(1);
 }
 
 /* eslint-enable @typescript-eslint/no-explicit-any */

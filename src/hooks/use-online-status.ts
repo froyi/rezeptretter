@@ -3,25 +3,25 @@
 import { useState, useEffect } from "react";
 
 /**
- * Tracks browser online/offline status.
- * Returns `true` when the device has a network connection.
+ * Tracks navigator.onLine and updates reactively
+ * on "online" / "offline" window events.
  */
-export function useOnlineStatus() {
+export function useOnlineStatus(): boolean {
   const [isOnline, setIsOnline] = useState(true);
 
   useEffect(() => {
-    // Set initial value (SSR-safe: default to true, correct on mount)
+    // Set initial value (SSR-safe: default true)
     setIsOnline(navigator.onLine);
 
-    const handleOnline = () => setIsOnline(true);
-    const handleOffline = () => setIsOnline(false);
+    const goOnline = () => setIsOnline(true);
+    const goOffline = () => setIsOnline(false);
 
-    window.addEventListener("online", handleOnline);
-    window.addEventListener("offline", handleOffline);
+    window.addEventListener("online", goOnline);
+    window.addEventListener("offline", goOffline);
 
     return () => {
-      window.removeEventListener("online", handleOnline);
-      window.removeEventListener("offline", handleOffline);
+      window.removeEventListener("online", goOnline);
+      window.removeEventListener("offline", goOffline);
     };
   }, []);
 
