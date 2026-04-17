@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-type TabId = "rezepte" | "importieren" | "profil";
+type TabId = "rezepte" | "einkaufsliste" | "importieren" | "profil";
 
 interface BottomNavBarProps {
   activeTab: TabId;
@@ -10,6 +10,12 @@ interface BottomNavBarProps {
 
 const tabs: { id: TabId; icon: string; label: string; href: string }[] = [
   { id: "rezepte", icon: "home", label: "Rezepte", href: "/rezepte" },
+  {
+    id: "einkaufsliste",
+    icon: "shopping_cart",
+    label: "Einkauf",
+    href: "/einkaufsliste",
+  },
   {
     id: "importieren",
     icon: "add_circle",
