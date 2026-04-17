@@ -5,7 +5,7 @@ import { TopNavBar } from "@/components/top-nav-bar";
 import { BottomNavBar } from "@/components/bottom-nav-bar";
 import { SidebarNav } from "@/components/sidebar-nav";
 
-type TabId = "rezepte" | "importieren" | "profil";
+type TabId = "rezepte" | "einkaufsliste" | "importieren" | "profil";
 
 interface AppShellProps {
   children: React.ReactNode;
@@ -14,6 +14,7 @@ interface AppShellProps {
 }
 
 function getActiveTab(pathname: string): TabId {
+  if (pathname.startsWith("/einkaufsliste")) return "einkaufsliste";
   if (pathname.startsWith("/importieren")) return "importieren";
   if (pathname.startsWith("/profil")) return "profil";
   return "rezepte";

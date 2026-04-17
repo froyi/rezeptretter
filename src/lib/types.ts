@@ -52,3 +52,16 @@ export interface ParsedRecipe {
   ingredients: Ingredient[];
   steps: Step[];
 }
+
+/** Einkaufslisten-Eintrag aus der Supabase `shopping_items` Tabelle */
+export interface ShoppingItem {
+  id: string;
+  user_id: string;
+  recipe_id: string | null;
+  recipe_title: string | null;
+  name: string;
+  amount: string | null;
+  checked: boolean;
+  sort_order: number;
+  created_at: string;
+}

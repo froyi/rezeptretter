@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { Recipe, Ingredient, Step } from "@/lib/types";
 import { deleteRecipe } from "@/app/actions/recipes";
+import { addToShoppingList } from "@/app/actions/shopping";
 import { ConfirmDialog } from "@/components/confirm-dialog";
 import { scaleAmount } from "@/lib/scale-amount";
 
@@ -29,6 +30,8 @@ export default function RezeptDetailClient({
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [addingToList, setAddingToList] = useState(false);
+  const [toast, setToast] = useState<string | null>(null);
 
   const originalServings = recipe.servings || 4;
   const [servings, setServings] = useState(originalServings);
@@ -51,6 +54,26 @@ export default function RezeptDetailClient({
     startTransition(async () => {
       await deleteRecipe(recipe.id);
     });
+  };
+
+  const handleAddToShoppingList = async () => {
+    setAddingToList(true);
+    try {
+      const scaledItems = ingredients.map((ing) => ({
+        name: ing.name,
+        amount: scaleAmount(ing.amount, originalServings, servings),
+      }));
+      const result = await addToShoppingList(recipe.id, recipe.title, scaledItems);
+      if (result?.success) {
+        setToast(result.success);
+        setTimeout(() => setToast(null), 3000);
+      } else if (result?.error) {
+        setToast(result.error);
+        setTimeout(() => setToast(null), 3000);
+      }
+    } finally {
+      setAddingToList(false);
+    }
   };
 
   const handleShare = async () => {
@@ -166,6 +189,18 @@ export default function RezeptDetailClient({
               <span className="material-symbols-outlined">play_circle</span>
               Kochmodus starten
             </Link>
+
+            {/* Einkaufsliste Button */}
+            <button
+              onClick={handleAddToShoppingList}
+              disabled={addingToList || ingredients.length === 0}
+              className="bg-surface-container-high text-primary rounded-full h-[52px] md:h-[56px] px-6 md:px-8 flex items-center justify-center gap-3 font-bold hover:bg-surface-variant transition-all active:scale-95 disabled:opacity-50"
+            >
+              <span className="material-symbols-outlined">
+                {addingToList ? "progress_activity" : "add_shopping_cart"}
+              </span>
+              {addingToList ? "Wird hinzugefügt..." : "Zur Einkaufsliste"}
+            </button>
 
             {/* Edit + Delete */}
             <div className="flex gap-2">
@@ -416,6 +451,13 @@ export default function RezeptDetailClient({
         onConfirm={handleDelete}
         destructive
       />
+
+      {/* Toast */}
+      {toast && (
+        <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 bg-inverse-surface text-inverse-on-surface px-6 py-3 rounded-full shadow-xl text-sm font-medium animate-in fade-in slide-in-from-bottom-4 duration-300">
+          {toast}
+        </div>
+      )}
     </div>
   );
 }

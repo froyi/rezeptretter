@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-type TabId = "rezepte" | "importieren" | "profil";
+type TabId = "rezepte" | "einkaufsliste" | "importieren" | "profil";
 
 interface SidebarNavProps {
   activeTab: TabId;
@@ -12,6 +12,12 @@ interface SidebarNavProps {
 
 const navItems: { id: TabId; icon: string; label: string; href: string }[] = [
   { id: "rezepte", icon: "home", label: "Rezepte", href: "/rezepte" },
+  {
+    id: "einkaufsliste",
+    icon: "shopping_cart",
+    label: "Einkaufsliste",
+    href: "/einkaufsliste",
+  },
   {
     id: "importieren",
     icon: "add_circle",
