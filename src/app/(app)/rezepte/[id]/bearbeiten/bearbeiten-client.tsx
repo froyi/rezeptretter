@@ -53,14 +53,14 @@ function SortableIngredient({
     >
       <input
         type="text"
-        value={ingredient.amount}
+        value={ingredient.amount ?? ""}
         onChange={(e) => onUpdate(index, "amount", e.target.value)}
         className="w-20 shrink-0 bg-transparent border-none p-0 text-sm font-semibold focus:ring-0 focus:text-primary placeholder:text-outline"
         placeholder="Menge"
       />
       <input
         type="text"
-        value={ingredient.name}
+        value={ingredient.name ?? ""}
         onChange={(e) => onUpdate(index, "name", e.target.value)}
         className="flex-1 bg-transparent border-none p-0 focus:ring-0 focus:text-primary placeholder:text-outline"
         placeholder="Zutat"
