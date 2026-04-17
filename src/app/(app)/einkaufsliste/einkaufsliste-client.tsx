@@ -9,7 +9,7 @@ import {
   clearCheckedItems,
   clearShoppingList,
 } from "@/app/actions/shopping";
-import { buildBringDeepLink, formatShoppingListText } from "@/lib/bring-export";
+import { formatShoppingListText, shareShoppingList } from "@/lib/bring-export";
 import { EmptyState } from "@/components/empty-state";
 import { ConfirmDialog } from "@/components/confirm-dialog";
 
@@ -83,13 +83,13 @@ export function EinkaufslisteClient({ items: initialItems }: { items: ShoppingIt
     showToast("Einkaufsliste geleert");
   };
 
-  /* ── Bring! Export ── */
-  const handleBringExport = async () => {
-    const link = buildBringDeepLink(items);
-    if (!link) return;
-
-    // Try to open Bring! via deep link
-    window.open(link, "_blank");
+  /* ── Share list (Web Share API → Bring!, WhatsApp, etc.) ── */
+  const handleShareList = async () => {
+    const shared = await shareShoppingList(items);
+    if (!shared) {
+      // Fallback: copy to clipboard
+      await handleCopyList();
+    }
   };
 
   /* ── Copy to clipboard ── */
@@ -144,11 +144,11 @@ export function EinkaufslisteClient({ items: initialItems }: { items: ShoppingIt
             <span className="material-symbols-outlined text-xl">content_copy</span>
           </button>
           <button
-            onClick={handleBringExport}
+            onClick={handleShareList}
             className="hero-gradient text-white px-5 py-3 rounded-full font-bold text-sm flex items-center gap-2 hover:brightness-110 transition-all active:scale-95 shadow-lg shadow-primary/15"
           >
-            <span className="material-symbols-outlined text-lg">shopping_bag</span>
-            An Bring!
+            <span className="material-symbols-outlined text-lg">share</span>
+            Teilen
           </button>
         </div>
       </div>

@@ -1,41 +1,18 @@
 /* ──────────────────────────────────────────────
- * Bring! Export – Deep Link Builder
- * Builds a URL that opens the Bring! shopping app
- * with the given items pre-filled.
+ * Shopping List Export Utilities
+ * Provides clipboard copy and Web Share API export.
+ *
+ * Note: Bring! deeplink API requires a public recipe URL
+ * with JSON-LD markup – not usable for private PWA items.
+ * We use the Web Share API instead, which on mobile allows
+ * sharing to Bring!, WhatsApp, Notes, etc.
  * ──────────────────────────────────────────────*/
 
 import type { ShoppingItem } from "@/lib/types";
 
 /**
- * Build a Bring! deep link from shopping items.
- *
- * Bring! Universal Link format:
- * https://api.getbring.com/rest/bringrecipes/deeplink
- *   ?source=rezeptretter
- *   &items=Zwiebeln|3 Stück,Mehl|500 g,Butter|
- *
- * Each item is: name|amount (amount can be empty)
- * Items are separated by commas.
- */
-export function buildBringDeepLink(items: ShoppingItem[]): string {
-  const uncheckedItems = items.filter((item) => !item.checked);
-
-  if (uncheckedItems.length === 0) return "";
-
-  const itemsParam = uncheckedItems
-    .map((item) => {
-      const name = item.name.trim();
-      const amount = item.amount?.trim() || "";
-      return `${name}|${amount}`;
-    })
-    .join(",");
-
-  return `https://api.getbring.com/rest/bringrecipes/deeplink?source=rezeptretter&items=${encodeURIComponent(itemsParam)}`;
-}
-
-/**
- * Format shopping items as plain text for clipboard copy.
- * Used as fallback when Bring! is not installed.
+ * Format shopping items as plain text.
+ * Used for clipboard copy and Web Share API.
  */
 export function formatShoppingListText(items: ShoppingItem[]): string {
   const uncheckedItems = items.filter((item) => !item.checked);
@@ -46,4 +23,31 @@ export function formatShoppingListText(items: ShoppingItem[]): string {
       return amount ? `${amount} ${item.name}` : item.name;
     })
     .join("\n");
+}
+
+/**
+ * Share the shopping list via the Web Share API.
+ * Returns true if shared successfully, false if not available.
+ */
+export async function shareShoppingList(items: ShoppingItem[]): Promise<boolean> {
+  const text = formatShoppingListText(items);
+  if (!text) return false;
+
+  if (typeof navigator !== "undefined" && navigator.share) {
+    try {
+      await navigator.share({
+        title: "Einkaufsliste – Rezeptretter",
+        text,
+      });
+      return true;
+    } catch (err) {
+      // User cancelled share – not an error
+      if (err instanceof Error && err.name === "AbortError") {
+        return false;
+      }
+      return false;
+    }
+  }
+
+  return false;
 }
