@@ -69,11 +69,54 @@ export default async function RezeptDetailPage({
     imageUrl: recipeResult.data.image_url,
   };
 
+  // Build JSON-LD for SEO & Bring! compatibility
+  const jsonLd: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    name: recipe.title,
+    recipeYield: recipe.servings ? `${recipe.servings} Portionen` : undefined,
+    recipeIngredient: (ingredientsResult.data || []).map((ing) => {
+      return ing.amount ? `${ing.amount} ${ing.name}` : ing.name;
+    }),
+  };
+
+  if (recipe.image_url) {
+    jsonLd.image = recipe.image_url;
+    jsonLd.thumbnailUrl = recipe.image_url;
+  }
+  if (recipe.cooking_time) {
+    jsonLd.totalTime = `PT${recipe.cooking_time}M`;
+    jsonLd.cookTime = `PT${recipe.cooking_time}M`;
+  }
+  if (recipe.category?.length) {
+    jsonLd.recipeCategory = recipe.category;
+  }
+  if (recipe.source_url) {
+    jsonLd.url = recipe.source_url;
+  }
+
+  // Build steps for JSON-LD
+  const stepsData = stepsResult.data || [];
+  if (stepsData.length > 0) {
+    jsonLd.recipeInstructions = stepsData.map((step, i) => ({
+      "@type": "HowToStep",
+      position: i + 1,
+      name: step.title || `Schritt ${i + 1}`,
+      text: step.description,
+    }));
+  }
+
   return (
-    <RezeptDetailClient
-      recipe={recipe}
-      ingredients={ingredientsResult.data || []}
-      steps={stepsResult.data || []}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <RezeptDetailClient
+        recipe={recipe}
+        ingredients={ingredientsResult.data || []}
+        steps={stepsResult.data || []}
+      />
+    </>
   );
 }

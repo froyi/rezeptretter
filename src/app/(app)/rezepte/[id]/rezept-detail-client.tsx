@@ -105,13 +105,14 @@ export default function RezeptDetailClient({
   const handleSendToBring = () => {
     setSharingToBring(true);
     try {
-      // Build the ingredient list as comma-separated string
+      // Build the ingredient list – pipe-separated to avoid comma conflicts
+      // (ingredients like "Salz, Pfeffer" contain commas)
       const items = ingredients
         .map((ing) => {
           const scaled = scaleAmount(ing.amount, originalServings, servings);
           return scaled ? `${scaled} ${ing.name}` : ing.name;
         })
-        .join(",");
+        .join("|");
 
       // Our public endpoint that serves JSON-LD for Bring! to scrape
       const exportUrl = new URL("/api/bring-export", window.location.origin);
@@ -121,11 +122,22 @@ export default function RezeptDetailClient({
       if (recipe.image_url) {
         exportUrl.searchParams.set("image", recipe.image_url);
       }
+      if (recipe.cooking_time) {
+        exportUrl.searchParams.set("cookTime", recipe.cooking_time.toString());
+      }
+      if (recipe.category?.length) {
+        exportUrl.searchParams.set("category", recipe.category.join(","));
+      }
 
-      // Bring! deeplink API
-      const bringUrl = `https://api.getbring.com/rest/bringrecipes/deeplink?url=${encodeURIComponent(exportUrl.toString())}&source=web`;
+      // Bring! deeplink API – include baseQuantity/requestedQuantity
+      // so Bring! can re-scale portions if the user changes them in-app
+      const bringUrl = new URL("https://api.getbring.com/rest/bringrecipes/deeplink");
+      bringUrl.searchParams.set("url", exportUrl.toString());
+      bringUrl.searchParams.set("source", "web");
+      bringUrl.searchParams.set("baseQuantity", originalServings.toString());
+      bringUrl.searchParams.set("requestedQuantity", servings.toString());
 
-      window.open(bringUrl, "_blank");
+      window.open(bringUrl.toString(), "_blank");
     } finally {
       setSharingToBring(false);
     }
