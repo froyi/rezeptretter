@@ -118,6 +118,9 @@ export default function RezeptDetailClient({
       exportUrl.searchParams.set("title", recipe.title);
       exportUrl.searchParams.set("items", items);
       exportUrl.searchParams.set("servings", servings.toString());
+      if (recipe.image_url) {
+        exportUrl.searchParams.set("image", recipe.image_url);
+      }
 
       // Bring! deeplink API
       const bringUrl = `https://api.getbring.com/rest/bringrecipes/deeplink?url=${encodeURIComponent(exportUrl.toString())}&source=web`;
