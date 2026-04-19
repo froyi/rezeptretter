@@ -97,32 +97,32 @@ export default function RezeptDetailClient({
     }
   };
 
-  /** Build a formatted ingredient list and share via Web Share API → Bring! */
-  const handleSendToBring = async () => {
+  /**
+   * Open Bring! via their deeplink API.
+   * Flow: build a public URL with JSON-LD recipe data → Bring! deeplink API
+   * → Bring! app fetches the URL, reads JSON-LD, imports ingredients.
+   */
+  const handleSendToBring = () => {
     setSharingToBring(true);
     try {
-      const lines = ingredients.map((ing) => {
-        const scaled = scaleAmount(ing.amount, originalServings, servings);
-        return scaled ? `${scaled} ${ing.name}` : ing.name;
-      });
+      // Build the ingredient list as comma-separated string
+      const items = ingredients
+        .map((ing) => {
+          const scaled = scaleAmount(ing.amount, originalServings, servings);
+          return scaled ? `${scaled} ${ing.name}` : ing.name;
+        })
+        .join(",");
 
-      const text = lines.join("\n");
+      // Our public endpoint that serves JSON-LD for Bring! to scrape
+      const exportUrl = new URL("/api/bring-export", window.location.origin);
+      exportUrl.searchParams.set("title", recipe.title);
+      exportUrl.searchParams.set("items", items);
+      exportUrl.searchParams.set("servings", servings.toString());
 
-      if (typeof navigator !== "undefined" && navigator.share) {
-        await navigator.share({
-          title: `Zutaten – ${recipe.title}`,
-          text,
-        });
-        showToast("Zutaten geteilt!");
-      } else {
-        // Desktop-Fallback: Zwischenablage
-        await navigator.clipboard.writeText(text);
-        showToast("Zutaten in Zwischenablage kopiert!");
-      }
-    } catch (err) {
-      if (err instanceof Error && err.name !== "AbortError") {
-        showToast("Teilen fehlgeschlagen");
-      }
+      // Bring! deeplink API
+      const bringUrl = `https://api.getbring.com/rest/bringrecipes/deeplink?url=${encodeURIComponent(exportUrl.toString())}&source=web`;
+
+      window.open(bringUrl, "_blank");
     } finally {
       setSharingToBring(false);
     }
