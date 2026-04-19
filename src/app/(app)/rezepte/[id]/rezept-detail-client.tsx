@@ -128,6 +128,8 @@ export default function RezeptDetailClient({
       if (recipe.category?.length) {
         exportUrl.searchParams.set("category", recipe.category.join(","));
       }
+      // Pass the actual recipe URL so Bring! can link back to it
+      exportUrl.searchParams.set("recipeUrl", window.location.href);
 
       // Bring! deeplink API – include baseQuantity/requestedQuantity
       // so Bring! can re-scale portions if the user changes them in-app

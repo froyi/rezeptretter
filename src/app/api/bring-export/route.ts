@@ -11,6 +11,7 @@ import { NextRequest, NextResponse } from "next/server";
  * - image: Optional image URL for the recipe
  * - cookTime: Optional cooking time in minutes
  * - category: Optional comma-separated categories
+ * - recipeUrl: The actual recipe URL in Rezeptretter (for backlinks)
  */
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -21,6 +22,7 @@ export async function GET(request: NextRequest) {
   const image = searchParams.get("image") || "";
   const cookTime = searchParams.get("cookTime") || "";
   const category = searchParams.get("category") || "";
+  const recipeUrl = searchParams.get("recipeUrl") || "";
 
   // Decode and split ingredients (pipe-separated to avoid comma conflicts)
   const ingredients = itemsRaw
@@ -36,6 +38,12 @@ export async function GET(request: NextRequest) {
     recipeYield: `${servings} Portionen`,
     recipeIngredient: ingredients,
   };
+
+  // Set the canonical recipe URL so Bring! links back to the actual recipe
+  if (recipeUrl) {
+    jsonLd.url = recipeUrl;
+    jsonLd.mainEntityOfPage = recipeUrl;
+  }
 
   if (image) {
     jsonLd.image = image;
@@ -63,6 +71,8 @@ export async function GET(request: NextRequest) {
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>${escapeHtml(title)} – Rezeptretter</title>
+  ${recipeUrl ? `<link rel="canonical" href="${escapeAttr(recipeUrl)}" />` : ""}
+  ${recipeUrl ? `<meta http-equiv="refresh" content="3;url=${escapeAttr(recipeUrl)}" />` : ""}
 
   <!-- Open Graph -->
   <meta property="og:type" content="article" />
@@ -70,6 +80,7 @@ export async function GET(request: NextRequest) {
   <meta property="og:description" content="${escapeAttr(description)}" />
   <meta property="og:site_name" content="Rezeptretter" />
   ${image ? `<meta property="og:image" content="${escapeAttr(image)}" />` : ""}
+  ${recipeUrl ? `<meta property="og:url" content="${escapeAttr(recipeUrl)}" />` : ""}
 
   <!-- JSON-LD for Bring! & SEO -->
   <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
@@ -83,6 +94,8 @@ export async function GET(request: NextRequest) {
     .hero { width: 100%; border-radius: 12px; margin-bottom: 1.5rem; aspect-ratio: 4/3; object-fit: cover; }
     ul { list-style: none; padding: 0; margin: 0; }
     li { padding: 0.6rem 0; border-bottom: 1px solid #eee; font-size: 0.95rem; }
+    .back-link { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1.5rem; padding: 0.75rem 1.5rem; background: #e8f5e9; color: #2e7d32; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+    .back-link:hover { background: #c8e6c9; }
     .footer { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #eee; color: #aaa; font-size: 0.8rem; text-align: center; }
   </style>
 </head>
@@ -98,6 +111,7 @@ export async function GET(request: NextRequest) {
   <ul>
     ${ingredients.map((i) => `<li>${escapeHtml(i)}</li>`).join("\n    ")}
   </ul>
+  ${recipeUrl ? `<a class="back-link" href="${escapeAttr(recipeUrl)}">🍳 Zum Rezept in Rezeptretter</a>` : ""}
   <p class="footer">Erstellt mit Rezeptretter</p>
 </body>
 </html>`;
