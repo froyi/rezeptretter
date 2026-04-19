@@ -318,19 +318,19 @@ export default function KochmodusClient({
       {/* ── Scrollable content ── */}
       <div
         ref={contentRef}
-        className="flex-1 overflow-y-auto pb-64"
+        className="flex-1 overflow-y-auto pb-40"
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        {/* ── Hero Image ── */}
-        <div className="relative w-full h-[480px] sm:h-[574px] overflow-hidden bg-stone-900">
+        {/* ── Hero Image – clean, no text overlay ── */}
+        <div className="relative w-full h-[280px] sm:h-[360px] overflow-hidden bg-stone-900">
           {(step.image_url || recipe.image_url) && (
             <Image
               src={step.image_url || recipe.image_url || ""}
               alt={step.title || `Schritt ${currentStep + 1}`}
               fill
-              className="object-cover scale-110"
+              className="object-cover"
               sizes="100vw"
               priority
             />
@@ -344,48 +344,43 @@ export default function KochmodusClient({
             </div>
           )}
 
-          {/* Bottom gradient overlay */}
+          {/* Bottom gradient – subtle, just for step number readability */}
           <div
             className="absolute inset-0 pointer-events-none"
             style={{
               background:
-                "linear-gradient(0deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0) 100%)",
+                "linear-gradient(0deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 40%)",
             }}
           />
 
-          {/* Step number + short text overlay */}
-          <div className="absolute bottom-0 left-0 w-full p-6 pb-12">
-            <div className="flex items-center gap-4 mb-3">
-              <span
-                className="font-headline font-black text-6xl drop-shadow-lg"
-                style={{ color: "var(--cook-secondary)" }}
-              >
-                {String(currentStep + 1).padStart(2, "0")}
-              </span>
-              <div
-                className="h-1.5 w-16 rounded-full"
-                style={{ backgroundColor: "var(--cook-secondary)" }}
-              />
-            </div>
-            <p className="text-[20px] leading-tight text-white font-bold drop-shadow-md max-w-[90%]">
-              {step.description.length > 80
-                ? step.description.slice(0, 80) + "..."
-                : step.description}
-            </p>
+          {/* Step number only – clean, no description on image */}
+          <div className="absolute bottom-4 left-6">
+            <span
+              className="font-headline font-black text-5xl drop-shadow-lg"
+              style={{ color: "var(--cook-secondary)" }}
+            >
+              {String(currentStep + 1).padStart(2, "0")}
+            </span>
           </div>
         </div>
 
-        {/* ── Content Card (overlaps image) ── */}
-        <div className="px-6 -mt-8 relative z-10">
-          <div className="bg-white rounded-t-xl p-8 shadow-2xl border-t border-gray-100">
+        {/* ── Content Card ── */}
+        <div className="px-4 -mt-4 relative z-10">
+          <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-lg border border-gray-100">
+            {/* Step title if available */}
+            {step.title && (
+              <h3 className="text-lg font-bold text-on-surface mb-2">
+                {step.title}
+              </h3>
+            )}
             {/* Full step description */}
-            <p className="text-[20px] leading-[1.6] text-on-surface font-medium mb-10">
+            <p className="text-base sm:text-lg leading-relaxed text-on-surface">
               {step.description}
             </p>
 
             {/* Timer (only if step has timer_seconds) */}
             {step.timer_seconds && step.timer_seconds > 0 && (
-              <div className="mb-10">
+              <div className="mt-5">
                 <CookTimer
                   totalSeconds={step.timer_seconds}
                   remainingSeconds={currentTimerState.remainingSeconds}
@@ -399,20 +394,18 @@ export default function KochmodusClient({
 
             {/* Profi-Tipp */}
             {step.tip && (
-              <div className="bg-[#2E7D32]/5 border-l-8 border-[#2E7D32] rounded-2xl p-6 flex gap-5 items-start">
-                <div className="bg-[#2E7D32]/20 p-2 rounded-xl shrink-0">
-                  <span
-                    className="material-symbols-outlined text-[#2E7D32] text-3xl"
-                    style={{ fontVariationSettings: "'FILL' 1" }}
-                  >
-                    lightbulb
-                  </span>
-                </div>
+              <div className="mt-5 bg-[#2E7D32]/5 border-l-4 border-[#2E7D32] rounded-xl p-4 flex gap-3 items-start">
+                <span
+                  className="material-symbols-outlined text-[#2E7D32] text-xl shrink-0"
+                  style={{ fontVariationSettings: "'FILL' 1" }}
+                >
+                  lightbulb
+                </span>
                 <div>
-                  <span className="font-black text-[#2E7D32] text-xs uppercase tracking-widest block mb-2">
+                  <span className="font-bold text-[#2E7D32] text-xs uppercase tracking-widest block mb-1">
                     Profi-Tipp
                   </span>
-                  <p className="text-on-surface-variant text-base leading-relaxed font-semibold">
+                  <p className="text-on-surface-variant text-sm leading-relaxed">
                     {step.tip}
                   </p>
                 </div>
@@ -431,58 +424,52 @@ export default function KochmodusClient({
         />
       )}
 
-      {/* ── Fixed Footer ── */}
-      <footer className="fixed bottom-0 left-0 w-full z-50 bg-white/80 backdrop-blur-xl border-t border-gray-100">
-        {/* Ingredients bar */}
+      {/* ── Fixed Footer – compact ── */}
+      <footer className="fixed bottom-0 left-0 w-full z-50 bg-white/90 backdrop-blur-xl border-t border-gray-200">
+        {/* Ingredients bar – compact */}
         <button
           onClick={() => setShowIngredients(true)}
-          className="w-full px-6 py-4 flex items-center justify-between border-b border-gray-100/50 active:bg-gray-50 transition-colors"
+          className="w-full px-4 py-2.5 flex items-center justify-between border-b border-gray-100/50 active:bg-gray-50 transition-colors"
         >
-          <div className="flex items-center gap-3">
-            <div
-              className="p-2 rounded-lg"
-              style={{ backgroundColor: "rgba(255, 179, 0, 0.2)" }}
+          <div className="flex items-center gap-2">
+            <span
+              className="material-symbols-outlined text-lg"
+              style={{
+                color: "var(--cook-secondary)",
+                fontVariationSettings: "'FILL' 1",
+              }}
             >
-              <span
-                className="material-symbols-outlined text-xl"
-                style={{
-                  color: "var(--cook-secondary)",
-                  fontVariationSettings: "'FILL' 1",
-                }}
-              >
-                shopping_basket
-              </span>
-            </div>
-            <span className="font-extrabold text-on-surface text-sm">
-              Zutaten{currentServings !== originalServings ? ` (${currentServings} Portionen)` : ""}
+              shopping_basket
+            </span>
+            <span className="font-bold text-on-surface text-sm">
+              Zutaten{currentServings !== originalServings ? ` (${currentServings} P.)` : ""}
             </span>
           </div>
-          <span className="material-symbols-outlined text-gray-400">
+          <span className="material-symbols-outlined text-gray-400 text-lg">
             expand_less
           </span>
         </button>
 
-        {/* Navigation buttons */}
-        <div className="px-6 pt-4 pb-8 flex items-center gap-4">
+        {/* Navigation buttons – compact */}
+        <div className="px-4 py-3 pb-safe flex items-center gap-3">
           <button
             onClick={goPrev}
             disabled={isFirstStep}
-            className={`flex-1 h-16 rounded-2xl border-2 border-gray-200 flex items-center justify-center font-black text-sm uppercase tracking-widest active:scale-95 transition-all ${
+            className={`h-12 px-5 rounded-xl border-2 border-gray-200 flex items-center justify-center font-bold text-sm active:scale-95 transition-all ${
               isFirstStep
                 ? "text-gray-300 border-gray-100 cursor-not-allowed"
                 : "text-gray-500"
             }`}
           >
-            <span className="material-symbols-outlined mr-2">arrow_back</span>
-            Zurück
+            <span className="material-symbols-outlined text-lg">arrow_back</span>
           </button>
           <button
             onClick={goNext}
-            className="flex-[2] h-16 rounded-2xl bg-black text-white font-black text-sm uppercase tracking-widest flex items-center justify-center shadow-2xl active:scale-95 transition-all"
+            className="flex-1 h-12 rounded-xl bg-black text-white font-bold text-sm flex items-center justify-center shadow-lg active:scale-95 transition-all"
           >
             {isLastStep ? "Fertig! 🎉" : "Weiter"}
             {!isLastStep && (
-              <span className="material-symbols-outlined ml-2">
+              <span className="material-symbols-outlined ml-2 text-lg">
                 arrow_forward
               </span>
             )}
