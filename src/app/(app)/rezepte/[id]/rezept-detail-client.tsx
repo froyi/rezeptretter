@@ -31,6 +31,7 @@ export default function RezeptDetailClient({
   const [isPending, startTransition] = useTransition();
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [addingToList, setAddingToList] = useState(false);
+  const [sharingToBring, setSharingToBring] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
 
   const originalServings = recipe.servings || 4;
@@ -50,6 +51,11 @@ export default function RezeptDetailClient({
     });
   }, []);
 
+  const showToast = useCallback((msg: string) => {
+    setToast(msg);
+    setTimeout(() => setToast(null), 3000);
+  }, []);
+
   const handleDelete = () => {
     startTransition(async () => {
       await deleteRecipe(recipe.id);
@@ -65,11 +71,9 @@ export default function RezeptDetailClient({
       }));
       const result = await addToShoppingList(recipe.id, recipe.title, scaledItems);
       if (result?.success) {
-        setToast(result.success);
-        setTimeout(() => setToast(null), 3000);
+        showToast(result.success);
       } else if (result?.error) {
-        setToast(result.error);
-        setTimeout(() => setToast(null), 3000);
+        showToast(result.error);
       }
     } finally {
       setAddingToList(false);
@@ -87,10 +91,40 @@ export default function RezeptDetailClient({
         await navigator.share(shareData);
       } else {
         await navigator.clipboard.writeText(window.location.href);
-        // TODO: toast notification
       }
     } catch {
       // User cancelled share
+    }
+  };
+
+  /** Build a formatted ingredient list and share via Web Share API → Bring! */
+  const handleSendToBring = async () => {
+    setSharingToBring(true);
+    try {
+      const lines = ingredients.map((ing) => {
+        const scaled = scaleAmount(ing.amount, originalServings, servings);
+        return scaled ? `${scaled} ${ing.name}` : ing.name;
+      });
+
+      const text = lines.join("\n");
+
+      if (typeof navigator !== "undefined" && navigator.share) {
+        await navigator.share({
+          title: `Zutaten – ${recipe.title}`,
+          text,
+        });
+        showToast("Zutaten geteilt!");
+      } else {
+        // Desktop-Fallback: Zwischenablage
+        await navigator.clipboard.writeText(text);
+        showToast("Zutaten in Zwischenablage kopiert!");
+      }
+    } catch (err) {
+      if (err instanceof Error && err.name !== "AbortError") {
+        showToast("Teilen fehlgeschlagen");
+      }
+    } finally {
+      setSharingToBring(false);
     }
   };
 
@@ -200,6 +234,18 @@ export default function RezeptDetailClient({
                 {addingToList ? "progress_activity" : "add_shopping_cart"}
               </span>
               {addingToList ? "Wird hinzugefügt..." : "Zur Einkaufsliste"}
+            </button>
+
+            {/* An Bring! senden */}
+            <button
+              onClick={handleSendToBring}
+              disabled={sharingToBring || ingredients.length === 0}
+              className="bg-[#303233] text-white rounded-full h-[52px] md:h-[56px] px-6 md:px-8 flex items-center justify-center gap-3 font-bold hover:bg-[#404344] transition-all active:scale-95 disabled:opacity-50 shadow-md"
+            >
+              <span className="material-symbols-outlined">
+                {sharingToBring ? "progress_activity" : "share"}
+              </span>
+              {sharingToBring ? "Wird geteilt..." : "An Bring! senden"}
             </button>
 
             {/* Edit + Delete */}

@@ -9,7 +9,7 @@ import {
   clearCheckedItems,
   clearShoppingList,
 } from "@/app/actions/shopping";
-import { formatShoppingListText, shareShoppingList } from "@/lib/bring-export";
+import { formatShoppingListText } from "@/lib/bring-export";
 import { EmptyState } from "@/components/empty-state";
 import { ConfirmDialog } from "@/components/confirm-dialog";
 
@@ -83,14 +83,7 @@ export function EinkaufslisteClient({ items: initialItems }: { items: ShoppingIt
     showToast("Einkaufsliste geleert");
   };
 
-  /* ── Share list (Web Share API → Bring!, WhatsApp, etc.) ── */
-  const handleShareList = async () => {
-    const shared = await shareShoppingList(items);
-    if (!shared) {
-      // Fallback: copy to clipboard
-      await handleCopyList();
-    }
-  };
+
 
   /* ── Copy to clipboard ── */
   const handleCopyList = async () => {
@@ -138,17 +131,11 @@ export function EinkaufslisteClient({ items: initialItems }: { items: ShoppingIt
         <div className="flex gap-2">
           <button
             onClick={handleCopyList}
-            className="p-3 rounded-full bg-surface-container-high hover:bg-surface-variant transition-colors"
+            className="bg-surface-container-high text-on-surface px-5 py-3 rounded-full font-bold text-sm flex items-center gap-2 hover:bg-surface-variant transition-all active:scale-95"
             title="Liste kopieren"
           >
-            <span className="material-symbols-outlined text-xl">content_copy</span>
-          </button>
-          <button
-            onClick={handleShareList}
-            className="hero-gradient text-white px-5 py-3 rounded-full font-bold text-sm flex items-center gap-2 hover:brightness-110 transition-all active:scale-95 shadow-lg shadow-primary/15"
-          >
-            <span className="material-symbols-outlined text-lg">share</span>
-            Teilen
+            <span className="material-symbols-outlined text-lg">content_copy</span>
+            Kopieren
           </button>
         </div>
       </div>
