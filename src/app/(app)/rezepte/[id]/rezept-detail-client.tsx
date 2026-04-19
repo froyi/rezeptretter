@@ -167,54 +167,34 @@ export default function RezeptDetailClient({
         )}
 
         {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6 md:p-12 md:rounded-xl">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-5 md:p-12 md:rounded-xl">
           <div className="max-w-3xl">
-            <h1 className="text-white text-3xl md:text-6xl font-headline font-bold tracking-tight mb-4 leading-tight">
+            <h1 className="text-white text-2xl md:text-6xl font-headline font-bold tracking-tight mb-2 md:mb-4 leading-tight">
               {recipe.title}
             </h1>
-            <div className="flex flex-wrap gap-3 text-white/90">
+            {/* Meta chips on image */}
+            <div className="flex flex-wrap gap-2 text-white/90">
               {recipe.cooking_time && (
-                <div className="flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full">
-                  <span className="material-symbols-outlined text-sm">
-                    schedule
-                  </span>
-                  <span className="text-sm font-medium">
-                    {recipe.cooking_time} Min.
-                  </span>
+                <div className="flex items-center gap-1.5 bg-white/20 backdrop-blur-md px-3 py-1.5 rounded-full">
+                  <span className="material-symbols-outlined text-xs">schedule</span>
+                  <span className="text-xs font-medium">{recipe.cooking_time} Min.</span>
                 </div>
               )}
               {recipe.difficulty && (
-                <div className="flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full">
-                  <span className="material-symbols-outlined text-sm">
-                    restaurant
-                  </span>
-                  <span className="text-sm font-medium">
-                    {recipe.difficulty}
-                  </span>
+                <div className="flex items-center gap-1.5 bg-white/20 backdrop-blur-md px-3 py-1.5 rounded-full">
+                  <span className="material-symbols-outlined text-xs">restaurant</span>
+                  <span className="text-xs font-medium">{recipe.difficulty}</span>
                 </div>
               )}
               {recipe.source_name && (
-                <div className="flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full">
-                  <span className="material-symbols-outlined text-sm">
-                    menu_book
-                  </span>
-                  <span className="text-sm font-medium">
-                    {recipe.source_name}
-                  </span>
+                <div className="flex items-center gap-1.5 bg-white/20 backdrop-blur-md px-3 py-1.5 rounded-full">
+                  <span className="material-symbols-outlined text-xs">menu_book</span>
+                  <span className="text-xs font-medium">{recipe.source_name}</span>
                 </div>
               )}
             </div>
           </div>
         </div>
-
-        {/* Share button (top right, always visible) */}
-        <button
-          onClick={handleShare}
-          className="absolute top-4 right-4 md:top-6 md:right-6 w-10 h-10 rounded-full bg-black/30 backdrop-blur-md text-white flex items-center justify-center hover:bg-black/50 transition-colors active:scale-90 z-10"
-          aria-label="Rezept teilen"
-        >
-          <span className="material-symbols-outlined text-xl">share</span>
-        </button>
 
         {/* Back button (top left) */}
         <Link
@@ -222,92 +202,132 @@ export default function RezeptDetailClient({
           className="absolute top-4 left-4 md:top-6 md:left-6 w-10 h-10 rounded-full bg-black/30 backdrop-blur-md text-white flex items-center justify-center hover:bg-black/50 transition-colors active:scale-90 z-10"
           aria-label="Zurück"
         >
-          <span className="material-symbols-outlined text-xl">
-            arrow_back
-          </span>
+          <span className="material-symbols-outlined text-xl">arrow_back</span>
         </Link>
+
+        {/* Share button (top right) */}
+        <button
+          onClick={handleShare}
+          className="absolute top-4 right-4 md:top-6 md:right-6 w-10 h-10 rounded-full bg-black/30 backdrop-blur-md text-white flex items-center justify-center hover:bg-black/50 transition-colors active:scale-90 z-10"
+          aria-label="Rezept teilen"
+        >
+          <span className="material-symbols-outlined text-xl">share</span>
+        </button>
       </section>
 
-      {/* ── Action Bar ───────────────────────── */}
-      <section className="px-4 md:px-6 -mt-6 md:-mt-8 relative z-10 max-w-screen-xl mx-auto">
-        <div className="bg-surface-container-lowest rounded-xl p-4 md:p-6 shadow-[0px_12px_32px_rgba(50,18,0,0.06)] flex flex-col sm:flex-row sm:items-center justify-between gap-4 md:gap-6">
-          <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
-            {/* Kochmodus Button */}
+      {/* ── Compact Action Toolbar (Mobile) / Full Bar (Desktop) ── */}
+      <section className="px-4 md:px-6 -mt-5 md:-mt-8 relative z-10 max-w-screen-xl mx-auto">
+        {/* Mobile: compact icon toolbar */}
+        <div className="md:hidden bg-surface-container-lowest rounded-2xl px-3 py-2.5 shadow-lg flex items-center justify-between gap-1">
+          <div className="flex items-center gap-1">
+            <button
+              onClick={handleAddToShoppingList}
+              disabled={addingToList || ingredients.length === 0}
+              className="flex items-center gap-1.5 text-on-surface-variant rounded-full px-3 py-2 hover:bg-surface-container-high active:scale-95 transition-all disabled:opacity-40 text-sm"
+              title="Zur Einkaufsliste"
+            >
+              <span className="material-symbols-outlined text-lg">
+                {addingToList ? "progress_activity" : "add_shopping_cart"}
+              </span>
+              <span className="font-medium">Einkauf</span>
+            </button>
+            <button
+              onClick={handleSendToBring}
+              disabled={sharingToBring || ingredients.length === 0}
+              className="flex items-center gap-1.5 text-on-surface-variant rounded-full px-3 py-2 hover:bg-surface-container-high active:scale-95 transition-all disabled:opacity-40 text-sm"
+              title="An Bring! senden"
+            >
+              <span className="material-symbols-outlined text-lg">
+                {sharingToBring ? "progress_activity" : "send"}
+              </span>
+              <span className="font-medium">Bring!</span>
+            </button>
+          </div>
+          <div className="flex items-center gap-0.5">
+            <Link
+              href={`/rezepte/${recipe.id}/bearbeiten`}
+              className="text-on-surface-variant rounded-full w-10 h-10 flex items-center justify-center hover:bg-surface-container-high transition-colors active:scale-90"
+              aria-label="Bearbeiten"
+            >
+              <span className="material-symbols-outlined text-xl">edit</span>
+            </Link>
+            <button
+              onClick={() => setShowDeleteDialog(true)}
+              className="text-on-surface-variant rounded-full w-10 h-10 flex items-center justify-center hover:bg-surface-container-high transition-colors active:scale-90"
+              aria-label="Löschen"
+              disabled={isPending}
+            >
+              <span className="material-symbols-outlined text-xl">delete</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Desktop: full action bar */}
+        <div className="hidden md:flex bg-surface-container-lowest rounded-xl p-6 shadow-[0px_12px_32px_rgba(50,18,0,0.06)] items-center justify-between gap-6">
+          <div className="flex gap-4">
             <Link
               href={`/rezepte/${recipe.id}/kochmodus${servings !== originalServings ? `?portionen=${servings}` : ""}`}
-              className="hero-gradient text-white rounded-full h-[52px] md:h-[56px] px-6 md:px-8 flex items-center justify-center gap-3 font-bold hover:brightness-110 transition-all active:scale-95"
+              className="hero-gradient text-white rounded-full h-[56px] px-8 flex items-center justify-center gap-3 font-bold hover:brightness-110 transition-all active:scale-95"
             >
               <span className="material-symbols-outlined">play_circle</span>
               Kochmodus starten
             </Link>
-
-            {/* Einkaufsliste Button */}
             <button
               onClick={handleAddToShoppingList}
               disabled={addingToList || ingredients.length === 0}
-              className="bg-surface-container-high text-primary rounded-full h-[52px] md:h-[56px] px-6 md:px-8 flex items-center justify-center gap-3 font-bold hover:bg-surface-variant transition-all active:scale-95 disabled:opacity-50"
+              className="bg-surface-container-high text-primary rounded-full h-[56px] px-8 flex items-center justify-center gap-3 font-bold hover:bg-surface-variant transition-all active:scale-95 disabled:opacity-50"
             >
               <span className="material-symbols-outlined">
                 {addingToList ? "progress_activity" : "add_shopping_cart"}
               </span>
               {addingToList ? "Wird hinzugefügt..." : "Zur Einkaufsliste"}
             </button>
-
-            {/* An Bring! senden */}
             <button
               onClick={handleSendToBring}
               disabled={sharingToBring || ingredients.length === 0}
-              className="bg-[#303233] text-white rounded-full h-[52px] md:h-[56px] px-6 md:px-8 flex items-center justify-center gap-3 font-bold hover:bg-[#404344] transition-all active:scale-95 disabled:opacity-50 shadow-md"
+              className="bg-[#303233] text-white rounded-full h-[56px] px-8 flex items-center justify-center gap-3 font-bold hover:bg-[#404344] transition-all active:scale-95 disabled:opacity-50 shadow-md"
             >
               <span className="material-symbols-outlined">
-                {sharingToBring ? "progress_activity" : "share"}
+                {sharingToBring ? "progress_activity" : "send"}
               </span>
               {sharingToBring ? "Wird geteilt..." : "An Bring! senden"}
             </button>
-
-            {/* Edit + Delete */}
-            <div className="flex gap-2">
-              <Link
-                href={`/rezepte/${recipe.id}/bearbeiten`}
-                className="bg-surface-container-high text-primary rounded-full w-[52px] h-[52px] md:w-[56px] md:h-[56px] flex items-center justify-center hover:bg-surface-variant transition-colors active:scale-90"
-                aria-label="Bearbeiten"
-                title="Bearbeiten"
-              >
-                <span className="material-symbols-outlined">edit</span>
-              </Link>
-              <button
-                onClick={() => setShowDeleteDialog(true)}
-                className="bg-surface-container-high text-primary rounded-full w-[52px] h-[52px] md:w-[56px] md:h-[56px] flex items-center justify-center hover:bg-surface-variant transition-colors active:scale-90"
-                aria-label="Löschen"
-                title="Löschen"
-                disabled={isPending}
-              >
-                <span className="material-symbols-outlined">delete</span>
-              </button>
-            </div>
+            <Link
+              href={`/rezepte/${recipe.id}/bearbeiten`}
+              className="bg-surface-container-high text-primary rounded-full w-[56px] h-[56px] flex items-center justify-center hover:bg-surface-variant transition-colors active:scale-90"
+              aria-label="Bearbeiten"
+            >
+              <span className="material-symbols-outlined">edit</span>
+            </Link>
+            <button
+              onClick={() => setShowDeleteDialog(true)}
+              className="bg-surface-container-high text-primary rounded-full w-[56px] h-[56px] flex items-center justify-center hover:bg-surface-variant transition-colors active:scale-90"
+              aria-label="Löschen"
+              disabled={isPending}
+            >
+              <span className="material-symbols-outlined">delete</span>
+            </button>
           </div>
 
-          {/* Portions Stepper */}
+          {/* Portions Stepper – Desktop */}
           <div className="flex items-center gap-4 bg-surface-container-low p-2 rounded-full">
-            <span className="text-on-surface-variant font-medium ml-3 text-sm md:text-base">
+            <span className="text-on-surface-variant font-medium ml-3">
               Portionen
             </span>
-            <div className="flex items-center gap-2 md:gap-3">
+            <div className="flex items-center gap-3">
               <button
                 onClick={() => setServings((s) => Math.max(1, s - 1))}
-                className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-surface-container-lowest flex items-center justify-center hover:bg-white transition-colors active:scale-90"
+                className="w-10 h-10 rounded-full bg-surface-container-lowest flex items-center justify-center hover:bg-white transition-colors active:scale-90"
                 aria-label="Eine Portion weniger"
               >
-                <span className="material-symbols-outlined text-lg">
-                  remove
-                </span>
+                <span className="material-symbols-outlined text-lg">remove</span>
               </button>
-              <span className="font-bold text-lg md:text-xl w-6 text-center tabular-nums">
+              <span className="font-bold text-xl w-6 text-center tabular-nums">
                 {servings}
               </span>
               <button
                 onClick={() => setServings((s) => Math.min(20, s + 1))}
-                className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-surface-container-lowest flex items-center justify-center hover:bg-white transition-colors active:scale-90"
+                className="w-10 h-10 rounded-full bg-surface-container-lowest flex items-center justify-center hover:bg-white transition-colors active:scale-90"
                 aria-label="Eine Portion mehr"
               >
                 <span className="material-symbols-outlined text-lg">add</span>
@@ -317,14 +337,46 @@ export default function RezeptDetailClient({
         </div>
       </section>
 
+      {/* ── Floating Kochmodus FAB (Mobile only) ── */}
+      <Link
+        href={`/rezepte/${recipe.id}/kochmodus${servings !== originalServings ? `?portionen=${servings}` : ""}`}
+        className="md:hidden fixed bottom-24 right-4 z-40 hero-gradient text-white rounded-full h-14 px-5 flex items-center gap-2 font-bold shadow-xl shadow-primary/25 active:scale-95 transition-all"
+      >
+        <span className="material-symbols-outlined">play_circle</span>
+        Kochen
+      </Link>
+
       {/* ── Ingredients & Steps Grid ──────────── */}
-      <section className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 px-4 md:px-6 mt-8 md:mt-12 mb-24 max-w-screen-xl mx-auto">
+      <section className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 px-4 md:px-6 mt-6 md:mt-12 mb-24 max-w-screen-xl mx-auto">
         {/* Zutatenliste (Sticky Sidebar on Desktop) */}
         <div className="lg:col-span-4">
-          <div className="bg-surface-container-low rounded-xl p-6 md:p-8 sticky top-28">
-            <h2 className="text-2xl font-headline font-bold text-on-surface mb-6 md:mb-8 tracking-tight">
-              Zutaten
-            </h2>
+          <div className="bg-surface-container-low rounded-xl p-5 md:p-8 sticky top-28">
+            {/* Ingredients header + inline portions stepper (mobile) */}
+            <div className="flex items-center justify-between mb-4 md:mb-8">
+              <h2 className="text-xl md:text-2xl font-headline font-bold text-on-surface tracking-tight">
+                Zutaten
+              </h2>
+              {/* Mobile portions stepper */}
+              <div className="md:hidden flex items-center gap-1.5 bg-surface-container p-1 rounded-full">
+                <button
+                  onClick={() => setServings((s) => Math.max(1, s - 1))}
+                  className="w-8 h-8 rounded-full bg-surface-container-lowest flex items-center justify-center active:scale-90 transition-transform"
+                  aria-label="Weniger"
+                >
+                  <span className="material-symbols-outlined text-base">remove</span>
+                </button>
+                <span className="font-bold text-sm w-5 text-center tabular-nums">
+                  {servings}
+                </span>
+                <button
+                  onClick={() => setServings((s) => Math.min(20, s + 1))}
+                  className="w-8 h-8 rounded-full bg-surface-container-lowest flex items-center justify-center active:scale-90 transition-transform"
+                  aria-label="Mehr"
+                >
+                  <span className="material-symbols-outlined text-base">add</span>
+                </button>
+              </div>
+            </div>
             {servings !== originalServings && (
               <p className="text-sm text-primary/80 mb-4 -mt-2 flex items-center gap-1.5">
                 <span className="material-symbols-outlined text-base">
