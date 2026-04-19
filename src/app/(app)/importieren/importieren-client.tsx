@@ -55,20 +55,20 @@ function SortableIngredient({
     <li
       ref={setNodeRef}
       style={style}
-      className="flex items-center gap-2 border-b border-outline-variant/10 pb-3"
+      className="flex items-center gap-2 border-b border-outline-variant/10 pb-3 min-w-0"
     >
       <input
         type="text"
         value={ingredient.amount}
         onChange={(e) => onUpdate(index, "amount", e.target.value)}
-        className="w-20 shrink-0 bg-transparent border-none p-0 text-sm font-semibold focus:ring-0 focus:text-primary placeholder:text-outline"
+        className="w-16 sm:w-20 shrink-0 bg-transparent border-none p-0 text-sm font-semibold focus:ring-0 focus:text-primary placeholder:text-outline truncate"
         placeholder="Menge"
       />
       <input
         type="text"
         value={ingredient.name}
         onChange={(e) => onUpdate(index, "name", e.target.value)}
-        className="flex-1 bg-transparent border-none p-0 focus:ring-0 focus:text-primary placeholder:text-outline"
+        className="flex-1 min-w-0 bg-transparent border-none p-0 focus:ring-0 focus:text-primary placeholder:text-outline truncate"
         placeholder="Zutat"
       />
       <button
@@ -540,7 +540,7 @@ export function ImportierenClient() {
               </div>
 
               {/* B) Ingredients (5 cols) */}
-              <div className="md:col-span-5 bg-surface-container-low p-6 md:p-8 rounded-xl space-y-6 self-start">
+              <div className="md:col-span-5 bg-surface-container-low p-4 sm:p-6 md:p-8 rounded-xl space-y-6 self-start overflow-hidden">
                 <div className="flex justify-between items-center">
                   <h3 className="text-xl font-bold">Zutaten</h3>
                   <button
@@ -614,8 +614,20 @@ export function ImportierenClient() {
                       </div>
                       <textarea
                         value={step.description}
-                        onChange={(e) => updateStep(i, e.target.value)}
-                        className="flex-1 bg-surface-container-low border-none rounded-lg p-4 md:p-5 focus:ring-2 focus:ring-primary/20 min-h-[80px] text-base md:text-lg leading-relaxed resize-none"
+                        onChange={(e) => {
+                          updateStep(i, e.target.value);
+                          // Auto-resize textarea
+                          e.target.style.height = 'auto';
+                          e.target.style.height = e.target.scrollHeight + 'px';
+                        }}
+                        ref={(el) => {
+                          // Auto-resize on mount
+                          if (el) {
+                            el.style.height = 'auto';
+                            el.style.height = el.scrollHeight + 'px';
+                          }
+                        }}
+                        className="flex-1 bg-surface-container-low border-none rounded-lg p-4 md:p-5 focus:ring-2 focus:ring-primary/20 min-h-[120px] text-base md:text-lg leading-relaxed resize-none overflow-hidden"
                         placeholder="Schritt beschreiben..."
                       />
                       <button
